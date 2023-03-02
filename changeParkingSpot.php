@@ -56,105 +56,120 @@
     <!-- Navbar End -->
 
 
-    <!-- หัวเรื่อง Start -->
+    <!-- Header Start -->
     <!-- <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
-            <h3 class="display-3 font-weight-bold text-white">แก้ไขจุดจอดรถ</h3>
-        
+            <h3 class="display-3 font-weight-bold text-white">purple car</h3>
+            <div class="d-inline-flex text-white">
+                
+            </div>
         </div>
     </div> -->
-    <!-- หัวเรื่อง End -->
+    <!-- Header End -->
 
+ <!-- Registration Start -->
+ <div class="container-fluid py-5 d-flex flex-column align-items-center justify-content-center" align="center">
+    <div class="container d-flex flex-column align-items-center justify-content-center" align="center">
     <div class="page-heading normal-space"> 
-        <div class="col-lg-12">
-          <div class="container">
-              <div class="col-lg-12">
-                  <form id="contact" action="" method="post">
-                    <div class="item">
-                      <div class="row">
-                       
-                          <div class="col-lg-12">
-                            
-                          </div>
+    <div class="col-lg-12">
+      <div class="container">
+          <div class="col-lg-12">
+                <div class="item">
+                  <div class="row">
+                    <!--<div class="current-bid">ต้องเปลี่ยนใน css--> 
+                      <div class="col-lg-12">
+                        <span class="mini-heading"><h4>แก้ไขจุดจอดรถ</h4></span>
                       </div>
-                    </div>
-                  <br>
+                    <!--</div>-->
+                  </div>
+                </div>
+              <br>
+                <!-- <div class="col-lg-3">
+                  <fieldset>
+                      <select name="Category" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
+                          <option selected>สายรถ</option>
+                          <option value="blue">สายสีฟ้า</option>
+                          <option value="red">สายสีแดง</option>
+                      </select>
+                  </fieldset>
 
-                  <!--ปุ่ม -->
-                    </div>
-                    <div class="row">
-                        <div class="col-12 text-center mb-2">
-                            <ul class="list-inline mb-4" id="portfolio-flters">
-                                <div class="text-center pb-2">
-                                    <p class="section-title px-5"><span class="px-2">แก้ไขจุดจอดรถ</span></p>
-                                    
-                                </div>
-                                <li class="btn btn-outline-primary m-1" data-filter=".first">สายรถ</li>
-                                <li class="btn btn-outline-primary m-1" data-filter=".blue">สายสีฟ้า</li>
-                                <li class="btn btn-outline-primary m-1" data-filter=".red">สายสีแดง</li>
-                            </ul>
-                        </div>
-                    </div>
-                  <br>
-                <!--ปุ่ม end -->
-
-                  <table width='100%'>
-                    <tr>
-                        <th>รหัสจุดจอดรถ</th>
-                        <th>ชื่อสถานที่จุดจอดรถ</th>
-                        <th>สายรถ</th>
-                        <th></th><th></th>
-                    </tr>
-                        <?php
-                            include('connectdatabase.php');
-                            if (!$conn) {
-                                die("Connection failed: " . mysqli_connect_error());
-                            } else {
-                                $sql = "SELECT * FROM `parking_spot`";
-                                $result = mysqli_query($conn, $sql);
-                                if (mysqli_num_rows($result) > 0){
-                                    while($row = mysqli_fetch_assoc($result)){
-                                        // $car_reservation = $row["car_reservation_code"];
-                                        echo "<tr>";
-                                        echo "<td>";
-                                        echo $row["car_reservation_code"];
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $row["Parking_place_name"];
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo $row["route_b_r"];
-                                        echo "</td>";
-                                        // echo "<td>";
-                                        // echo $row["red"];
-                                        // echo "</td>";
-                                        echo "<td>";
-                                        echo "<button>Edit</button";
-                                        echo "</td>";
-                                        echo "<td>";
-                                        echo "<button>Delete</button";
-                                        echo "</td>";
-                                        echo "</tr>";
-                                    }
+                </div> -->
+              <br>
+              <table width='100%'>
+                <tr>
+                    <th>รหัสจุดจอดรถ</th>
+                    <th>ชื่อสถานที่จุดจอดรถ</th>
+                    <th>สายรถ</th>
+                    <th></th><th></th>
+                </tr>
+                    <?php
+                        include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        } else {
+                            $sql = "SELECT * FROM `parking_spot`";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    // $drivingid = $row["driving_cycle_id"];
+                                    echo "<tr>";
+                                    echo "<td>";
+                                    echo $row["car_reservation_code"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $row["Parking_place_name"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $row["route_b_r"];
+                                    echo "</td>";                                
+                                    ?>
+                                    <td><button class="form-control" data-toggle="modal" href=edit/editformParkingSpot.php" data-target="#theModal" onclick="window.location='edit/editformParkingSpot.php?id=<?php echo $row["car_reservation_code"];?>'">Edit</button></td>
+                                    <td><button class="form-control" onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteParkingSpot.php?id=<?php echo $row["car_reservation_code"];?>';}">Delete</button></td>
+                                    <?php
+                                    echo "</tr>";
                                 }
                             }
+                        }
                         ?>
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <td><input type="text" name="carreid" size="3" required></td>
-                        <td><input type="text" name="parkname" size="20"></td>
-                        <td><input type="text" name="route" size="3"></td>
-                        <td><input type="submit" value="Add"></td>
-                        <td><input type="reset" value="Cancel"></td>
-              </form>
-                  </table>
+                    
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <td></td>
+                    <td><input type="text" name="Parking_place_name" size="30"></td>
+                    <td><input type="text" name="route_b_r" size="6"></td>
+                    
+                    <td><input type="submit" class="form-control" value="Add"></td>
+                    <td><input type="reset" class="form-control" value="Cancel"></td>
                 </form>
-              </div>
+              </table>
+              <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                    $namelocation = $_POST['Parking_place_name'];
+                    $route = $_POST['route_b_r'];
+                    
+                    $sql = "INSERT INTO `parking_spot` (car_reservation_code, Parking_place_name, route_b_r) VALUES (NULL,'$namelocation', '$route')";
+                        if (mysqli_query($conn, $sql)) {
+                            echo "New record created successfully";
+                        // header('Location:showBorrowing.php');
+                        } else {
+                        echo "Error: ". mysqli_error($conn);
+                        }              
+                    }
+                }
+                mysqli_close($conn);
+            ?>
           </div>
-        </div>
       </div>
-    
+    </div>
+  </div>
+                
+           
+   
 
-  
+    <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
 
