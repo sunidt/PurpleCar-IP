@@ -116,37 +116,21 @@
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0){
                                 while($row = mysqli_fetch_assoc($result)){
-                                    // $drivingid = $row["driving_cycle_id"];
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["driving_cycle_id"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["car_route_id"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["stratid"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["Driver_ID"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["vehicle_registration"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["date_of_driving_circle"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["time_id"];
-                                    echo "</td>";     
-                                    echo "<td>";
-                                    echo $row["remaining_tickets"];
-                                    echo "</td>";                                 
+                                    $drivingid = $row["driving_cycle_id"];
                                     ?>
+                                    <tr>
+                                    <td><?php echo $row["driving_cycle_id"]; ?></td>
+                                    <td><?php echo $row["car_route_id"]; ?></td>
+                                    <td><?php echo $row["stratid"]; ?></td>
+                                    <td><?php echo $row["Driver_ID"]; ?></td>
+                                    <td><?php echo $row["vehicle_registration"]; ?></td>
+                                    <td><?php echo $row["date_of_driving_circle"]; ?></td>
+                                    <td><?php echo $row["time_id"]; ?></td>  
+                                    <td><?php echo $row["remaining_tickets"]; ?></td>                           
                                     <td><button data-toggle="modal" href=edit/editformDrivingCycle.php" data-target="#theModal" onclick="window.location='edit/editformDrivingCycle.php?id=<?php echo $row["driving_cycle_id"];?>'">Edit</button></td>
-                                    <td><button onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteDrivingCycle.php?id=<?php echo $row["driving_cycle_id"];?>';}">Delete</button></td>
+                                    <td><button onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteDrivingCycle.php?id=<?php echo $drivingid;?>';}">Delete</button></td>
+                                    </tr>
                                     <?php
-                                    echo "</tr>";
                                 }
                             }
                         }
