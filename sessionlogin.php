@@ -1,4 +1,5 @@
 <?php
+  ob_start();
   session_start();
   include('connectdatabase.php');
 
@@ -9,7 +10,6 @@
 
   if($num_login==true){
     $_SESSION['UserID']=$result_login['Username'];
-  
     header('Location:bookTickets.php');
   }
   else{
@@ -19,8 +19,7 @@
     $result_login=mysqli_fetch_assoc($query_login);
     
     if($num_login==true){
-      $_SESSION['UserID']=$result_login['Name'];
-      
+      $_SESSION['UserID']=$result_login['Username'];
       header('Location:checkTicketsforDrivers.php');
     }
     else{

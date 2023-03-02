@@ -1,3 +1,11 @@
+<?php
+    ob_start();
+    session_start();
+    if($_SESSION['UserID']==""){
+        header("Location:login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +54,7 @@
                     <a href="pay.php" class="nav-item nav-link active">ชำระเงิน</a>
                     <a href="bookTickets.php" class="nav-item nav-link">จองตั๋ว</a>
                     <a href="historyTickets.php" class="nav-item nav-link">ประวัติการจอง</a>
-                    <a href="login.php" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="logout.php" class="nav-item nav-link">ออกจากระบบ</a>
                     <div class="nav-item dropdown">
                         <!--<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu rounded-0 m-0">
@@ -85,6 +93,24 @@
                     <img class="img-fluid rounded mb-5 mb-lg-0" src="img/qrcode.png" alt="">
                 </div>
                 <div class="col-lg-7">
+                <?php
+                    include('connectdatabase.php');
+                    if (!$conn) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    } else {
+                        $sql = "SELECT * FROM `passenger` WHERE Username = '".$_SESSION['UserID']."' ";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) == 1){
+                            while($row = mysqli_fetch_assoc($result)){
+                            echo $row["NameP"];
+                            echo " : แต้มสะสม ";
+                            echo $row["Points"];
+                            $userid = $row["Passenger_ID"];
+                            }
+                        }
+                    }
+                ?>
+                    <br>
                     <p class="section-title pr-5"><span class="pr-2">HI</span></p>
                     <h1 class="mb-4">ชำระเงิน</h1>
                     <table border="1" bordercolor="#ff0000">

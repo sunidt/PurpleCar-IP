@@ -1,3 +1,11 @@
+<?php
+    ob_start();
+    session_start();
+    if($_SESSION['UserID']==""){
+        header("Location:login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +53,7 @@
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
                     <a href="index1.php" class="nav-item nav-link">หน้าแรก</a>
                     <a href="checkTicketsforDrivers.php" class="nav-item nav-link active">เช็คการจองตั๋วรถ(ของคนขับ)</a>
-                    <a href="login.php" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="logout.php" class="nav-item nav-link">ออกจากระบบ</a>
                     <div class="nav-item dropdown">
                     </div>
                 </div>
@@ -97,7 +105,25 @@
             <div class="text-center pb-2">
                 <h1 class="mb-4">เช็คการจองตั๋วรถ(ของคนขับ)</h1>
             </div>
-        </div>      
+        </div>    
+        <?php
+        include('connectdatabase.php');
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        } else {
+            $sql = "SELECT * FROM `driver` WHERE Username = '".$_SESSION['UserID']."' ";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) == 1){
+            while($row = mysqli_fetch_assoc($result)){
+                echo $row["NameD"];
+                // echo " : ";
+                // echo $row["Points"];
+                $userid = $row["Driver_ID"];
+                }
+            }
+        }
+        ?>  
+        <br><br>
         <h5>วันที่วิ่งรถ</h5>
         <input type="date" id="datecar">
         <div id="result"></div>

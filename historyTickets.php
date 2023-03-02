@@ -1,3 +1,11 @@
+<?php
+    ob_start();
+    session_start();
+    if($_SESSION['UserID']==""){
+        header("Location:login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +53,7 @@
                     <a href="index1.php" class="nav-item nav-link">หน้าแรก</a>
                     <a href="bookTickets.php" class="nav-item nav-link">จองตั๋ว</a>
                     <a href="historyTickets.php" class="nav-item nav-link active">ประวัติการจอง</a>
-                    <a href="login.php" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="logout.php" class="nav-item nav-link">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
@@ -68,8 +76,26 @@
     
 
     <!-- Facilities Start -->
+
     <div class="container-fluid pt-5">
         <div class="container pb-3">
+        <?php
+        include('connectdatabase.php');
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        } else {
+            $sql = "SELECT * FROM `passenger` WHERE Username = '".$_SESSION['UserID']."' ";
+            $result = mysqli_query($conn, $sql);
+            if (mysqli_num_rows($result) == 1){
+            while($row = mysqli_fetch_assoc($result)){
+                echo $row["NameP"];
+                echo " : แต้มสะสม ";
+                echo $row["Points"];
+                $userid = $row["Passenger_ID"];
+                }
+            }
+        }
+        ?>
             <div class="row">
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">

@@ -1,3 +1,11 @@
+<?php
+    ob_start();
+    session_start();
+    if($_SESSION['UserID']==""){
+        header("Location:login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +53,7 @@
                     <a href="index1.php" class="nav-item nav-link">หน้าแรก</a>
                     <a href="bookTickets.php" class="nav-item nav-link active">จองตั๋ว</a>
                     <a href="historyTickets.php" class="nav-item nav-link">ประวัติการจอง</a>
-                    <a href="login.php" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="logout.php" class="nav-item nav-link">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
@@ -64,12 +72,32 @@
     </div>
     <!-- Header End -->
 
+
+
     <div class="page-heading">
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
               <!-- <h6>Liberty NFT Market</h6> -->
-              <p align = right class="mini-heading">แต้มสะสม : 100 แต้ม</p>
+
+            <?php
+                include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        } else {
+                            $sql = "SELECT * FROM `passenger` WHERE Username = '".$_SESSION['UserID']."' ";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) == 1){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    echo $row["NameP"];
+                                    echo " : แต้มสะสม ";
+                                    echo $row["Points"];
+                                    $userid = $row["Passenger_ID"];
+                                }
+                            }
+                        }
+            ?>
+              <!-- <p align = right class="mini-heading">แต้มสะสม : 100 แต้ม</p> -->
               <!-- <span>Home > <a href="#">Explore</a></span> -->
             </div>
           </div>
@@ -83,7 +111,7 @@
             <div class="text-center pb-2">
                 <h6 style="font-size: 40px;">จุดขึ้นรถ</h6>
                 <fieldset>
-                    <select name="GetIn" class="form-select" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                         <option value="NU" selected>มหาวิทยาลัยนเรศวร</option>
                         <!-- <option value="BKS1">บขส. 1</option> -->
                         <option value="BKS2">บขส. 2</option>
@@ -103,7 +131,7 @@
                 </fieldset>
                 <h6 style="font-size: 40px;">จุดลงรถ</h6>
                 <fieldset>
-                    <select name="GetOff" class="form-select" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                         <option value="NU">มหาวิทยาลัยนเรศวร</option>
                         <option value="BKS1">บขส. 1</option>
                         <option value="BKS2" selected>บขส. 2</option>
@@ -125,7 +153,7 @@
                 
                 <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
                 <fieldset>
-                    <select name="goTime" class="form-select" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                         <option value="1">06.40 น.</option>
                         <option value="2">07.00 น.</option>
                         <option value="3">08.05 น.</option>
@@ -170,7 +198,7 @@
                 </fieldset> -->
                 <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
                 <fieldset>
-                    <select name="tickets" class="form-select" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="tickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
