@@ -77,12 +77,12 @@
                 <div class="">
                     <br>
               <table width='100%'>
-                
                 </div>
             </div>
         </div>
     </div>
     <!-- About End -->
+    
     <br>
               <table width='100%'>
                 <tr>
@@ -97,9 +97,22 @@
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
-                <h1 class="mb-4">แก้ไขเวลาเดินรถ</h1>
+                <h1 class="mb-4">แก้ไขเวลาวิ่งรถ</h1>
             </div>
-
+            <div class="container">
+                <div class="text-center pb-2">
+                    <div class="col-lg-3">
+                        <fieldset>
+                            <select name="Category" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
+                                <option selected>สายรถ</option>
+                                <option type="checkbox" name="option1" value="blue">สายสีฟ้า</option>
+                                <option value="red">สายสีแดง</option>
+                            </select>
+                        </fieldset>
+                      </div>
+                    <br>
+                </div>
+            </div>
             <?php
                         include('connectdatabase.php');
                         if (!$conn) {
@@ -123,31 +136,51 @@
                                     echo "<td>";
                                     echo $row["start_NU_TC"];
                                     echo "</td>";
-                                    echo "<td>";
-                                    echo "<button>Edit</button";
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo "<button>Delete</button";
-                                    echo "</td>";
+                                    ?>
+                                    <td><button data-toggle="modal" href=edit/editformTime.php" data-target="#theModal" onclick="window.location='edit/editformTime.php?id=<?php echo $row["time_id"];?>'">Edit</button></td>
+                                    <td><button onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteTime.php?id=<?php echo $row["time_id"];?>';}">Delete</button></td>
+                                    <?php
                                     echo "</tr>";
                                 }
                             }
                         }
                     ?>
-            <div class="container">
-                <div class="text-center pb-2">
-                    <div class="col-lg-3">
-                        <fieldset>
-                            <select name="Category" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
-                                <option selected>สายรถ</option>
-                                <option type="checkbox" name="option1" value="blue">สายสีฟ้า</option>
-                                <option value="red">สายสีแดง</option>
-                            </select>
-                        </fieldset>
-                      </div>
-                    <br>
-                </div>
-            </div>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    
+                    <td><input type="text" name="time_id" size="12"></td>
+                    <td><input type="text" name="time" size="7"></td>
+                    <td><input type="number" name="route" size="3"></td>
+                    <td><input type="number" name="start" size="3"></td>
+                    <td><input type="submit" value="Add"></td>
+                    <td><input type="reset" value="Cancel"></td>
+                </form>
+              </table>
+
+              <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                    $routeid = $_POST['car_route_id'];
+                    $start = $_POST['startid'];
+                    $driver = $_POST['Driver_ID'];
+                    $vehicle = $_POST['vehicle_registration'];
+                    $dated = $_POST['date_of_driving_circle'];
+                    $timeid = $_POST['time_id'];
+                    
+                    $sql = "INSERT INTO `driving_cycle` (driving_cycle_id,car_route_id, stratid, Driver_ID, vehicle_registration, date_of_driving_circle, time_id,remaining_tickets) VALUES (NULL,'$routeid', '$start','$driver','$vehicle','$dated','$timeid',Default)";
+                        if (mysqli_query($conn, $sql)) {
+                            echo "New record created successfully";
+                        // header('Location:showBorrowing.php');
+                        } else {
+                        echo "Error: ". mysqli_error($conn);
+                        }              
+                    }
+                }
+                mysqli_close($conn);
+            ?>
+           
           </div>
         </div>
-                </div>
+        </div>
