@@ -8,7 +8,7 @@
   if (isset($_GET['id'])){
     $id = $_GET['id'];
     $delete = mysqli_query($conn, "DELETE FROM `driving_cycle` WHERE driving_cycle_id = '$id'");
-    header("location:../changDricycle.php");
+    header("location:../changeDricycle.php");
   }
   $query = mysqli_query($conn, $select);
 ?>
