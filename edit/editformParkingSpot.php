@@ -93,7 +93,7 @@
             ?>
             <form method="POST" action="editParkingSpot.php" name = "frmAdd">
                 รหัสจุดจอดรถ : <input type="hidden" name="carcode" value="<?php echo $result["car_reservation_code"];?>"><?php echo $result["car_reservation_code"];?><br>
-                ชื่อสถานที่จุดจอดรถ <input type="text" name="namelocation" size="3" value="<?php echo $result["Parking_place_name"];?>"><br>
+                ชื่อสถานที่จุดจอดรถ <input type="text" name="namelocation" size="20" value="<?php echo $result["Parking_place_name"];?>"><br>
                 สายรถ <input type="number" name="route" size="2" value="<?php echo $result["route_b_r"];?>"><br>
             <input type="submit" value="Edit">
             <input type="reset" value="Cancel">
