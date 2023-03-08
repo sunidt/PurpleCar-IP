@@ -110,95 +110,113 @@
         <div class="container">
             <div class="text-center pb-2">
                 <h6 style="font-size: 40px;">จุดขึ้นรถ</h6>
-                <fieldset>
-                    <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
-                        <option value="NU" selected>มหาวิทยาลัยนเรศวร</option>
-                        <!-- <option value="BKS1">บขส. 1</option> -->
-                        <option value="BKS2">บขส. 2</option>
-                        <!-- <option value="BigC">บิ๊กซี</option>
-                        <option value="Satit">ม.สาธิต</option>
-                        <option value="Malabiang">มาลาเบี่ยง</option>
-                        <option value="BudhHospital">รพ. พุทธ</option>
-                        <option value="TrainStation">สถานีรถไฟ</option>
-                        <option value="Macro">แมคโคร</option>
-                        <option value="LotusTonwha">โลตัสต้นหว้า</option>
-                        <option value="Chollapratan">ชลประทาน</option>
-                        <option value="Topland">ท็อปแลนด์</option>
-                        <option value="WatYai">วัดใหญ่</option>
-                        <option value="BanKlong">บ้านคลอง</option>
-                        <option value="Central">เซ็นทรัล</option> -->
-                    </select>
-                </fieldset>
+                <!-- <fieldset> -->
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                <?php
+                    include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        } else {
+                            $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = 1 or `car_reservation_code` = 9";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_array($result)){
+                                    // $carrecode = $row['car_reservation_code'];
+                                    ?>
+                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
+                                    <?php
+                                }
+                            }
+                        }
+                ?>
+                </select>
+
                 <h6 style="font-size: 40px;">จุดลงรถ</h6>
                 <fieldset>
-                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
-                        <option value="NU">มหาวิทยาลัยนเรศวร</option>
-                        <option value="BKS1">บขส. 1</option>
-                        <option value="BKS2" selected>บขส. 2</option>
-                        <option value="BigC">บิ๊กซี</option>
-                        <option value="Satit">ม.สาธิต</option>
-                        <option value="Malabiang">มาลาเบี่ยง</option>
-                        <option value="BudhHospital">รพ. พุทธ</option>
-                        <option value="TrainStation">สถานีรถไฟ</option>
-                        <option value="Macro">แมคโคร</option>
-                        <option value="LotusTonwha">โลตัสต้นหว้า</option>
-                        <option value="Chollapratan">ชลประทาน</option>
-                        <option value="Topland">ท็อปแลนด์</option>
-                        <option value="WatYai">วัดใหญ่</option>
-                        <option value="BanKlong">บ้านคลอง</option>
-                        <option value="Central">เซ็นทรัล</option>
+                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getOff" onchange="this.form.click()">
+                    <?php
+                        include('connectdatabase.php');
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            } else {
+                                $sql = "SELECT * FROM `parking_spot`";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0){
+                                    while($row = mysqli_fetch_array($result)){
+                                    ?>
+                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
+                                    <?php
+                                }
+                            }
+                        }
+                    ?>
                     </select>
                 </fieldset>
                 <br>
-                
+                <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
+                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" onchange="this.form.click()">
                 <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
                 <fieldset>
-                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
-                        <option value="1">06.40 น.</option>
-                        <option value="2">07.00 น.</option>
-                        <option value="3">08.05 น.</option>
-                        <option value="4">08.25 น.</option>
-                        <option value="5">09.00 น.</option>
-                        <option value="6">09.25 น.</option>
-                        <option value="7">10.25 น.</option>
-                        <option value="8">10.35 น.</option>
-                        <option value="9">11.50 น.</option>
-                        <option value="10">12.20 น.</option>
-                        <option value="11">13.15 น.</option>
-                        <option value="12">13.35 น.</option>
-                        <option value="13">14.40 น.</option>
-                        <option value="14">15.00 น.</option>
-                        <option value="15">16.05 น.</option>
-                        <option value="16">16.25 น.</option>
-                        <option value="17">17.30 น.</option>
+                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
+                    <?php
+                        include('connectdatabase.php');
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            } else {
+                                $sql = "SELECT * FROM `departure_time`";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0){
+                                    while($row = mysqli_fetch_array($result)){
+                                    ?>
+                                        <option value=<?php echo $row["time_id"] ?> selected><?php echo substr(($row["time"]) ,0,5) ?></option>
+                                    <?php
+                                }
+                            }
+                        }
+                    ?>
                     </select>
                 </fieldset>
-                <!-- <h6>เที่ยวกลับ/เวลา</h6>
+                <br>
                 <fieldset>
-                    <select name="backTime" class="form-select" aria-label="Default select example" id="getIn" onchange="this.form.click()">
-                        <option value="0">ไม่ซื้อตั๋วกลับ</option>
-                        <option value="1">06.40 น.</option>
-                        <option value="2">07.00 น.</option>
-                        <option value="3">08.05 น.</option>
-                        <option value="4">08.25 น.</option>
-                        <option value="5">09.00 น.</option>
-                        <option value="6">09.25 น.</option>
-                        <option value="7">10.25 น.</option>
-                        <option value="8">10.35 น.</option>
-                        <option value="9">11.50 น.</option>
-                        <option value="10">12.20 น.</option>
-                        <option value="11">13.15 น.</option>
-                        <option value="12">13.35 น.</option>
-                        <option value="13">14.40 น.</option>
-                        <option value="14">15.00 น.</option>
-                        <option value="15">16.05 น.</option>
-                        <option value="16">16.25 น.</option>
-                        <option value="17">17.30 น.</option>
-                    </select>
-                </fieldset> -->
+                    <div>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็ครอบรถ</button>
+                    </div>
+                </fieldset>
+                </form>
+                <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                    $getin = $_POST['GetIn'];
+                    $getoff = $_POST['GetOff'];
+                    $godate = $_POST['goDate'];
+                    $gotime = $_POST['goTime'];
+                    // $numtickets = $_POST['numtickets'];
+                    // echo $getin;
+                    // echo $getoff;
+                    // echo $godate;
+                    // echo $gotime;
+                    
+                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and `time_id` = '$gotime'";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0){
+                        while($row = mysqli_fetch_array($result)){
+                            echo $row['driving_cycle_id'];
+                        }
+                    } else {
+                        echo "ไม่มีรอบรถ";
+                    }
+                    }
+                }
+                mysqli_close($conn);
+            ?>
+
                 <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
                 <fieldset>
-                    <select name="tickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="numtickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
