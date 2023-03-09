@@ -175,12 +175,35 @@
                     $getoff = $_POST['GetOff'];
                     $godate = $_POST['goDate'];
                     // $gotime = $_POST['goTime'];
-                    
-                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate'";
+                    $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = '$getoff'";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_array($result)){
-                            $route = $row['car_route_id'];
+                            $route = str_split($row['route_b_r']);
+                            $r = [];
+                            if($route[0]==1){
+                                // echo "รถม่วงสายสีฟ้า";
+                                array_push($r,1);
+                            }else{
+                                array_push($r,0);
+                            }
+                            if($route[1]==1){
+                                // echo "รถม่วงสายสีแดง";
+                                array_push($r,2);
+                            }else{
+                                array_push($r,0);
+                            }
+                        }
+                        // echo $r;
+                    } else {
+                        echo "ไม่เจอ";
+                    }
+                    
+                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and (`car_route_id` = '$r[0]' or `car_route_id` = '$r[1]')";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0){
+                        while($row = mysqli_fetch_array($result)){
+                            // $route = $row['car_route_id'];
                             echo $row['driving_cycle_id'];
                         }
                     } else {
@@ -190,6 +213,8 @@
                 }
                 // mysqli_close($conn);
             ?>
+                <br>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">            
                 <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
                 <fieldset>
                     <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
@@ -198,7 +223,7 @@
                             if (!$conn) {
                                 die("Connection failed: " . mysqli_connect_error());
                             } else {
-                                $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate'";
+                                $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and (`car_route_id` = '$r[0]' or `car_route_id` = '$r[1]')";
                                 $result = mysqli_query($conn, $sql);
                                 if (mysqli_num_rows($result) > 0){
                                     while($row = mysqli_fetch_array($result)){
@@ -211,7 +236,33 @@
                     ?>
                     </select>
                 </fieldset>
-
+                <br>
+                <fieldset>
+                    <div>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็คจำนวนตั๋ว</button>
+                    </div>
+                </fieldset>
+                </form>
+                <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                        $gotime = $_POST['goTime'];
+                        $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and (`car_route_id` = '$r[0]' or `car_route_id` = '$r[1]') and `time_id` = '$gotime'";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0){
+                            while($row = mysqli_fetch_array($result)){
+                               $remainticket = $row['remaining_tickets'];
+                               echo $remainticket;
+                            }
+                    }
+                    }
+                }
+                ?>
+                <br>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
                 <fieldset>
                     <select name="numtickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
@@ -235,6 +286,7 @@
                         <option value="18">18</option>
                     </select>
                 </fieldset>
+                </form>
                 <br>
                 <fieldset>
                     <div>
