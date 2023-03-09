@@ -140,7 +140,7 @@
                             while($row = mysqli_fetch_array($result)){
                                 $drivecycleid = $row['driving_cycle_id']; 
                                 $remainticket = $row['remaining_tickets'];
-                                echo $remainticket;
+                                // echo $remainticket;
                             }
                         } else {
                             echo "ไม่เจอ";
@@ -150,9 +150,13 @@
                 ?>
 
                 <br>
-                <form method="post" action=" ">
+                <form method="post" action="pay.php">
                 <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
                 <fieldset>
+                    <input type="hidden" name="driveCycleID" value="<?php echo $drivecycleid; ?>">
+                    <input type="hidden" name="GetIn" value="<?php echo $getin; ?>">
+                    <input type="hidden" name="GetOff" value="<?php echo $getoff; ?>">
+                    <input type="hidden" name="goTime" value="<?php echo $gotime; ?>">
                     <select name="numtickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                     <?php
                         $i = 1;
@@ -165,13 +169,13 @@
                     ?>
                     </select>
                 </fieldset>
-                </form>
                 <br>
                 <fieldset>
                     <div>
                         <button class="btn btn-primary btn-block border-0 py-3" type="submit">จอง</button>
                     </div>
                 </fieldset>
+                </form>
               </div>
             </div>
           </div>

@@ -141,7 +141,9 @@
                                 array_push($r,0);
                             }
                         }
-                        // echo $r;
+                        echo count($r);
+                        echo $r[0];
+                        echo $r[1];
                     } else {
                         echo "ไม่เจอ";
                     }
@@ -151,7 +153,7 @@
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_array($result)){
                             // $route = $row['car_route_id'];
-                            echo $row['driving_cycle_id'];
+                            // echo $row['driving_cycle_id'];
                         }
                     } else {
                         echo "ไม่มีรอบรถ";
