@@ -5,7 +5,6 @@
         header("Location:login.php");
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +52,7 @@
                     <a href="index1.php" class="nav-item nav-link">หน้าแรก</a>
                     <a href="bookTickets.php" class="nav-item nav-link">จองตั๋ว</a>
                     <a href="historyTickets.php" class="nav-item nav-link active">ประวัติการจอง</a>
-                    <a href="logout.php" class="nav-item nav-link">ออกจากระบบ</a>
+                    <a href="login.php" class="nav-item nav-link">ออกจากระบบ</a>
                 </div>
             </div>
         </nav>
@@ -66,19 +65,14 @@
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
             <h3 class="display-3 font-weight-bold text-white">ประวัติการจองตั๋วรถม่วง</h3>
             <div class="d-inline-flex text-white">
-                
+
             </div>
         </div>
     </div>
     <!-- Header End -->
-
-
     
-
-    <!-- Facilities Start -->
-
-    <div class="container-fluid pt-5">
-        <div class="container pb-3">
+<div class="container-fluid pt-5">
+    <div class="container pb-3">
         <?php
         include('connectdatabase.php');
         if (!$conn) {
@@ -96,109 +90,80 @@
             }
         }
         ?>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-050-fence h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>บขส2-เซ็ลทรัล</th>
-                            <h4>จำนวน 1 ใบ : ราคา 20 บาท</h4>
-                            <th>วันที่จอง 9/12/2565</th>
-                            <th>เวลา : 10.00 น.</th>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-022-drum h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>มหาวิทยาลัยนเรศวร-บิ๊กซี</th>
-                            <h4>จำนวน 2 ใบ : ราคา 70 บาท</h4>
-                            <th>วันที่จอง 9/12/2565</th>
-                            <th>เวลา : 09.30 น.</th>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-030-crayons h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>บขส2-มหาวิทยาลัยนเรศวร</th>
-                            <h4>จำนวน 2 ใบ : ราคา 70 บาท</h4>
-                            <th>วันที่จอง 8/12/2565</th>
-                            <th>เวลา : 15.30 น.</th>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-017-toy-car h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>โลตัสต้นหว่า-สถานีรถไฟ</th>
-                            <h4>จำนวน 1 ใบ : ราคา 30 บาท</h4>
-                            <th>วันที่จอง7/12/2565</th>
-                            <th>เวลา : 13.00 น.</th>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-025-sandwich h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>เซ็ลทรัล-มหาวิทยาลัยนเรศวร</th>
-                            <h4>จำนวน 2 ใบ : ราคา 70 บาท</h4>
-                            <th>วันที่จอง5/12/2565</th>
-                            <th>เวลา : 12.30 น.</th>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 pb-1">
-                    <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px;">
-                        <i class="flaticon-047-backpack h1 font-weight-normal text-primary mb-3"></i>
-                        <div class="pl-4">
-                            <h4>จุดขึ้นรถ-จุดลงรถ</h4>
-                            <th>บขส2-วัดใหญ่</th>
-                            <h4>จำนวน  ใบ : ราคา 150 บาท</h4>
-                            <th>วันที่จอง4/12/2565</th>
-                            <th>เวลา : 08.30 น.</th>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+<table width='100%'>
+    <tr>
+    <th>รหัสผู้โดยสาร</th>
+    <th>รหัสตั๋ว</th>
+    <th>ราคาตั๋ว</th>
+    <th>จุดขึ้นรถ</th>
+    <th>จุดลงรถ</th>
+    <th>วันที่จอง</th>
+    <th>เวลา</th>
+    </tr>
+
+        <?php
+        include('connectdatabase.php');
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        } else {
+            $sql = "SELECT * FROM `reserve` WHERE Passenger_ID = '$userid' ";
+            $query = mysqli_query($conn,$sql);
+            $result = mysqli_fetch_array($query, MYSQLI_ASSOC);
+            if ($sql){
+                $sql1 = "SELECT * FROM `ticket` inner join `reserve` on `ticket`.Ticket_ID = `reserve`.Ticket_ID  inner join `parking_spot` on `ticket`.drop_off_id = `parking_spot`.car_reservation_code inner join `driving_cycle` on `ticket`.Driving_cycle_ID = `driving_cycle`.Driving_cycle_ID  WHERE Passenger_ID = '$userid' ";
+                $result = mysqli_query($conn, $sql1);
+                if (mysqli_num_rows($result) > 0){
+                    while($row = mysqli_fetch_assoc($result)){
+                        $broding_point_id = $row["broding_point_id"];
+                        $car_reservation_code = $row["car_reservation_code"];
+                        $drop_off_id = $row["drop_off_id"];
+                            echo "<tr>";
+                            echo "<td>";
+                            echo $row["Passenger_ID"];
+                            echo "</td>";
+                            echo "<td>";
+                            echo $row["Ticket_ID"];
+                            echo "</td>";
+                            echo "<td>";
+                            echo $row["Ticket_Price"];
+                            echo "</td>";
+                            echo "<td>";
+                                if($broding_point_id == 1){
+                                    echo "บขส.2";
+                                }else{
+                                    echo "มหาวิทยาลัยนเรศวร";
+                                }
+                            echo "</td>";
+                            echo "<td>";
+                            echo $row["Parking_place_name"];
+                            echo "</td>";
+                            echo "<td>";
+                            echo $row["bookDate"];
+                            echo "</td>";
+                            echo "<td>";
+                                echo $row["time_id"];
+                            echo "</td>";
+                           
+                    }
+                }
+            }   
+        }
+        
+                echo "</table>";
+                mysqli_close( $conn );
+    ?>
+
+
+
+      
     </div>
-    <!-- Facilities Start -->
-
-
-    
+</div>
 
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-secondary text-white mt-5 py-5 px-sm-3 px-md-5">
-        <div class="row pt-5">
-            <div class="col-lg-3 col-md-6 mb-5">
-                <a href="" class="navbar-brand font-weight-bold text-primary m-0 mb-4 p-0" style="font-size: 40px; line-height: 40px;">                
-                </a>               
-                                   
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-5">              
-                </div>
-                <div class="d-flex">               
-                    </div>
-                </div>
-                <div class="d-flex">                 
-                </div>
-            
-        <div class="container-fluid pt-5" style="border-top: 1px solid rgba(23, 162, 184, .2);;">
-            <p class="m-0 text-center text-white">
-        </div>
-    </div>
+?
     <!-- Footer End -->
 
 
