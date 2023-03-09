@@ -111,65 +111,76 @@
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
-                <h6 style="font-size: 40px;">จุดขึ้นรถ</h6>
-                <!-- <fieldset> -->
-                <form method="post" action= "bookTicketscheckcycle.php">
-                <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                
                 <?php
-                    include('connectdatabase.php');
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        } else {
-                            $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = 1 or `car_reservation_code` = 9";
-                            $result = mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0){
-                                while($row = mysqli_fetch_array($result)){
-                                    // $carrecode = $row['car_reservation_code'];
-                                    ?>
-                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
-                                    <?php
-                                }
-                            }
-                        }
-                ?>
-                </select>
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else 
+                     {
+                    $getin = $_POST['GetIn'];
+                    $getoff = $_POST['GetOff'];
+                    $godate = $_POST['goDate'];
+                    $gotime = $_POST['goTime'];
+                     }
+                // mysqli_close($conn);
+            ?>
+                <br>
 
-                <h6 style="font-size: 40px;">จุดลงรถ</h6>
-                <fieldset>
-                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getOff" onchange="this.form.click()">
-                    <?php
-                        include('connectdatabase.php');
-                            if (!$conn) {
-                                die("Connection failed: " . mysqli_connect_error());
-                            } else {
-                                $sql = "SELECT * FROM `parking_spot`";
-                                $result = mysqli_query($conn, $sql);
-                                if (mysqli_num_rows($result) > 0){
-                                    while($row = mysqli_fetch_array($result)){
-                                    ?>
-                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
-                                    <?php
-                                }
+                <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                        $gotime = $_POST['goTime'];
+                        $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and `time_id` = '$gotime'";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0){
+                            while($row = mysqli_fetch_array($result)){
+                                $drivecycleid = $row['driving_cycle_id']; 
+                                $remainticket = $row['remaining_tickets'];
+                                echo $remainticket;
                             }
+                        } else {
+                            echo "ไม่เจอ";
+                        }
+                    }
+                }
+                ?>
+
+                <br>
+                <form method="post" action=" ">
+                <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
+                <fieldset>
+                    <select name="numtickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <?php
+                        $i = 1;
+                        while ($i <= $remainticket){
+                            ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php
+                            $i = $i+1;
                         }
                     ?>
                     </select>
                 </fieldset>
-                <br>
-                <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
-                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today ?> onchange="this.form.click()">
+                </form>
                 <br>
                 <fieldset>
                     <div>
-                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็ครอบรถ</button>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จอง</button>
                     </div>
                 </fieldset>
-                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
+            
+      
+   
+
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>

@@ -111,43 +111,74 @@
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
-                <h6 style="font-size: 40px;">จุดขึ้นรถ</h6>
-                <!-- <fieldset> -->
-                <form method="post" action= "bookTicketscheckcycle.php">
-                <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                
                 <?php
-                    include('connectdatabase.php');
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        } else {
-                            $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = 1 or `car_reservation_code` = 9";
-                            $result = mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0){
-                                while($row = mysqli_fetch_array($result)){
-                                    // $carrecode = $row['car_reservation_code'];
-                                    ?>
-                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
-                                    <?php
-                                }
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else 
+                     {
+                    $getin = $_POST['GetIn'];
+                    $getoff = $_POST['GetOff'];
+                    $godate = $_POST['goDate'];
+                    // $gotime = $_POST['goTime'];
+                    $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = '$getoff'";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0){
+                        while($row = mysqli_fetch_array($result)){
+                            $route = str_split($row['route_b_r']);
+                            $r = [];
+                            if($route[0]==1){
+                                // echo "รถม่วงสายสีฟ้า";
+                                array_push($r,1);
+                            }else{
+                                array_push($r,0);
+                            }
+                            if($route[1]==1){
+                                // echo "รถม่วงสายสีแดง";
+                                array_push($r,2);
+                            }else{
+                                array_push($r,0);
                             }
                         }
-                ?>
-                </select>
-
-                <h6 style="font-size: 40px;">จุดลงรถ</h6>
+                        // echo $r;
+                    } else {
+                        echo "ไม่เจอ";
+                    }
+                    
+                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and (`car_route_id` = '$r[0]' or `car_route_id` = '$r[1]')";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0){
+                        while($row = mysqli_fetch_array($result)){
+                            // $route = $row['car_route_id'];
+                            echo $row['driving_cycle_id'];
+                        }
+                    } else {
+                        echo "ไม่มีรอบรถ";
+                    }
+                    
+                }
+                // mysqli_close($conn);
+            ?>
+                <br>
+                <form method="post" action="bookTicketscheckremainTickets.php">            
+                <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
+                <input type="hidden" name="GetIn" value="<?php echo $getin; ?>">
+                <input type="hidden" name="GetOff" value="<?php echo $getoff; ?>">
+                <input type="hidden" name="goDate" value="<?php echo $godate; ?>">
                 <fieldset>
-                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getOff" onchange="this.form.click()">
+                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
                     <?php
                         include('connectdatabase.php');
                             if (!$conn) {
                                 die("Connection failed: " . mysqli_connect_error());
                             } else {
-                                $sql = "SELECT * FROM `parking_spot`";
+                                $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and (`car_route_id` = '$r[0]' or `car_route_id` = '$r[1]')";
                                 $result = mysqli_query($conn, $sql);
                                 if (mysqli_num_rows($result) > 0){
                                     while($row = mysqli_fetch_array($result)){
                                     ?>
-                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
+                                        <option value=<?php echo $row["time_id"] ?> selected><?php echo $row["time_id"]; echo " น."; ?></option>
                                     <?php
                                 }
                             }
@@ -156,12 +187,9 @@
                     </select>
                 </fieldset>
                 <br>
-                <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
-                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today ?> onchange="this.form.click()">
-                <br>
                 <fieldset>
                     <div>
-                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็ครอบรถ</button>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็คจำนวนตั๋ว</button>
                     </div>
                 </fieldset>
                 </form>
@@ -170,6 +198,10 @@
           </div>
         </div>
       </div>
+            
+      
+   
+
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
