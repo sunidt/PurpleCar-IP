@@ -93,6 +93,8 @@
                                     echo " : แต้มสะสม ";
                                     echo $row["Points"];
                                     $userid = $row["Passenger_ID"];
+                                    $today = date("Y-m-d");
+                                    // echo $today;
                                 }
                             }
                         }
@@ -155,28 +157,7 @@
                 </fieldset>
                 <br>
                 <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
-                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" onchange="this.form.click()">
-                <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
-                <fieldset>
-                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
-                    <?php
-                        include('connectdatabase.php');
-                            if (!$conn) {
-                                die("Connection failed: " . mysqli_connect_error());
-                            } else {
-                                $sql = "SELECT * FROM `departure_time`";
-                                $result = mysqli_query($conn, $sql);
-                                if (mysqli_num_rows($result) > 0){
-                                    while($row = mysqli_fetch_array($result)){
-                                    ?>
-                                        <option value=<?php echo $row["time_id"] ?> selected><?php echo substr(($row["time"]) ,0,5) ?></option>
-                                    <?php
-                                }
-                            }
-                        }
-                    ?>
-                    </select>
-                </fieldset>
+                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today ?> onchange="this.form.click()">
                 <br>
                 <fieldset>
                     <div>
@@ -193,17 +174,13 @@
                     $getin = $_POST['GetIn'];
                     $getoff = $_POST['GetOff'];
                     $godate = $_POST['goDate'];
-                    $gotime = $_POST['goTime'];
-                    // $numtickets = $_POST['numtickets'];
-                    // echo $getin;
-                    // echo $getoff;
-                    // echo $godate;
-                    // echo $gotime;
+                    // $gotime = $_POST['goTime'];
                     
-                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and `time_id` = '$gotime'";
+                    $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate'";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_array($result)){
+                            $route = $row['car_route_id'];
                             echo $row['driving_cycle_id'];
                         }
                     } else {
@@ -211,8 +188,29 @@
                     }
                     }
                 }
-                mysqli_close($conn);
+                // mysqli_close($conn);
             ?>
+                <h6 style="font-size: 40px;">เที่ยวไป/เวลา</h6>
+                <fieldset>
+                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
+                    <?php
+                        include('connectdatabase.php');
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            } else {
+                                $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate'";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0){
+                                    while($row = mysqli_fetch_array($result)){
+                                    ?>
+                                        <option value=<?php echo $row["time_id"] ?> selected><?php echo $row["time_id"]; echo " น."; ?></option>
+                                    <?php
+                                }
+                            }
+                        }
+                    ?>
+                    </select>
+                </fieldset>
 
                 <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
                 <fieldset>
