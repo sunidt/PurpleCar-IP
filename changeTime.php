@@ -99,7 +99,7 @@
             <div class="text-center pb-2">
                 <h1 class="mb-4">แก้ไขเวลาวิ่งรถ</h1>
             </div>
-            <div class="container">
+            <!-- <div class="container">
                 <div class="text-center pb-2">
                     <div class="col-lg-3">
                         <fieldset>
@@ -112,7 +112,7 @@
                       </div>
                     <br>
                 </div>
-            </div>
+            </div> -->
             <?php
                         include('connectdatabase.php');
                         if (!$conn) {
@@ -121,38 +121,52 @@
                             $sql = "SELECT * FROM `departure_time`";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0){
+                                $r = [];
+                                $start = [];
+
                                 while($row = mysqli_fetch_assoc($result)){
-                                    $car_reservation = $row["time_id"];
+                                                                       
                                     echo "<tr>";
                                     echo "<td>";
                                     echo $row["time_id"];
                                     echo "</td>";
                                     echo "<td>";
-                                    echo substr(($row["time"]) ,0,5);
+                                    echo substr(($row["timeT"]) ,0,5);
                                     echo "</td>";
+                                    $r = str_split($row["route_b_r"]);
+                                        if ($r[0] == 1 ) {
+                                            echo "<td style='color:blue'>";
+                                            echo "สายสีฟ้า";
+                                        }
+                                        else{
+                                            echo "<td style='color:red'>";
+                                            echo "สายสีแดง";
+                                        }   
+                                        echo "</td>";
                                     echo "<td>";
-                                    echo $row["route_b_r"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["start_NU_TC"];
+                                    $start = str_split($row["start_NU_TC"]);
+                                    if($start[0] == 1 && $start[1] == 1){
+                                        echo "มหาวิทยาลัยนเรศวร/บขส.2";
+                                    }  
                                     echo "</td>";
                                     ?>
-                                    <td><button data-toggle="modal" href=edit/editformTime.php" data-target="#theModal" onclick="window.location='edit/editformTime.php?id=<?php echo $row["time_id"];?>'">Edit</button></td>
-                                    <td><button onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteTime.php?id=<?php echo $row["time_id"];?>';}">Delete</button></td>
+                                    <td><button class="form-control" data-toggle="modal" href=edit/editformTime.php" data-target="#theModal" onclick="window.location='edit/editformTime.php?id=<?php echo $row["time_id"];?>'">Edit</button></td>
+                                    <td><button class="form-control" onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteTime.php?id=<?php echo $row["time_id"];?>';}">Delete</button></td>
                                     <?php
                                     echo "</tr>";
                                 }
+                                
                             }
                         }
                     ?>
-                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"><br>
                     
-                    <td><input type="text" name="time_id" size="12"></td>
-                    <td><input type="text" name="time" size="7"></td>
-                    <td><input type="number" name="route" size="3"></td>
-                    <td><input type="number" name="start" size="3"></td>
-                    <td><input type="submit" value="Add"></td>
-                    <td><input type="reset" value="Cancel"></td>
+                    <td><input class="form-control" type="text" name="time_id" size="12"></td>
+                    <td><input class="form-control" type="text" name="timeT" pattern="[0-9]{2}[:][0-9]{2}" size="7"></td>
+                    <td><input class="form-control" type="text" name="route_b_r" pattern="[0-9]{2}" size="5"></td>
+                    <td><input class="form-control" type="text" name="start_NU_TC" pattern="[0-9]{2}" size="20"></td>
+                    <td><input class="form-control" type="submit" value="Add"></td>
+                    <td><input class="form-control" type="reset" value="Cancel"></td>
                 </form>
               </table>
 
@@ -162,14 +176,13 @@
                     die("Connection failed: " . mysqli_connect_error());
                 } else {
                     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                    $routeid = $_POST['car_route_id'];
-                    $start = $_POST['startid'];
-                    $driver = $_POST['Driver_ID'];
-                    $vehicle = $_POST['vehicle_registration'];
-                    $dated = $_POST['date_of_driving_circle'];
-                    $timeid = $_POST['time_id'];
+                    $time_id = $_POST['time_id'];
+                    $timeT = $_POST['timeT'];
+                    $route_b_r = $_POST['route_b_r'];
+                    $start_NU_TC = $_POST['start_NU_TC'];
                     
-                    $sql = "INSERT INTO `driving_cycle` (driving_cycle_id,car_route_id, stratid, Driver_ID, vehicle_registration, date_of_driving_circle, time_id,remaining_tickets) VALUES (NULL,'$routeid', '$start','$driver','$vehicle','$dated','$timeid',Default)";
+                    
+                    $sql = "INSERT INTO `departure_time` (time_id,timeT,route_b_r,start_NU_TC) VALUES ('$time_id','$timeT','$route_b_r','$start_NU_TC')";
                         if (mysqli_query($conn, $sql)) {
                             echo "New record created successfully";
                         // header('Location:showBorrowing.php');
