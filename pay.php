@@ -119,6 +119,7 @@
                     $getin = $_POST['GetIn'];
                     $getoff = $_POST['GetOff'];
                     $gotime = $_POST['goTime'];
+                    $godate = $_POST['goDate'];
                     $i = 1;
                     while($i <= $numtics) {
                         $sql = "INSERT INTO `ticket` (`Ticket_ID`, `Driving_cycle_ID`, `Ticket_Price`, `broding_point_id`, `drop_off_id`) VALUES (NULL, '$drivecycleid', '35', '$getin', '$getoff')";
@@ -149,8 +150,9 @@
                             <!-- <th>สายรถ</th> -->
                             <th>จุดขึ้นรถ</th>
                             <th>จุดลงรถ</th>
-                            <th>ราคา</th>
+                            <th>วันที่</th>
                             <th>เวลา</th>
+                            <th>ราคา</th>
                         </tr>
                             <?php
                              $sql = "SELECT MAX(`Ticket_ID`) FROM `ticket`";
@@ -187,10 +189,13 @@
                                         echo $row['Parking_place_name'];
                                         echo "</td>"; 
                                         echo "<td>";
-                                        echo $row['Ticket_Price'];
+                                        echo $godate;
                                         echo "</td>"; 
                                         echo "<td>";
                                         echo $gotime;
+                                        echo "</td>"; 
+                                        echo "<td>";
+                                        echo $row['Ticket_Price'];
                                         echo "</td>"; 
                                         echo "</tr>";
                                      }
