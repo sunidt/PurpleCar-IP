@@ -144,12 +144,10 @@
                                     echo "<td>";
                                     echo $row["Driver_license_no"];
                                     echo "</td>";
-                                    echo "<td>";
-                                    echo "<button>Edit</button";
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo "<button>Delete</button";
-                                    echo "</td>";
+                                    ?>
+                                    <td><button class="form-control" data-toggle="modal" href=edit/editformdriver.php" data-target="#theModal" onclick="window.location='edit/editformdriver.php?id=<?php echo $row["Driver_ID"];?>'">Edit</button></td>
+                                    <td><button class="form-control" onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deletedriver.php?id=<?php echo $row["Driver_ID"];?>';}">Delete</button></td>
+                                    <?php
                                     echo "</tr>";
                                 }
                             }
@@ -157,15 +155,20 @@
                     ?>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                     <td></td>
-                    <td><input type="text" name="name" size="20"></td>
-                    <td><input type="text" name="sex" size="6"></td>
-                    <td><input type="date" name="date"></td>
-                    <td><input type="text" name="username" size="10"></td>
-                    <td><input type="password" name="password" size="20"></td>
-                    <td><input type="text" name="numphone" size="10"></td>
-                    <td><input type="text" name="Driver_license_no" size="8"></td>
-                    <td><input type="submit" value="Add"></td>
-                    <td><input type="reset" value="Cancel"></td>
+                    <td><input type="text" class="form-select form-control" name="named" size="20"></td>
+                    <td><fieldset>
+                        <select name="sex" class="form-select form-control" size="" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                            <option value="Male" >Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </fieldset></td>
+                    <td><input type="date" class="form-select form-control" name="date"></td>
+                    <td><input type="text" class="form-select form-control" name="username" size="10"></td>
+                    <td><input type="password" class="form-select form-control" name="passwordd" size="20"></td>
+                    <td><input type="text" class="form-select form-control" name="numphone" size="10"></td>
+                    <td><input type="text" class="form-select form-control" name="driverno" size="8"></td>
+                    <td><input type="submit" class="form-select form-control" value="Add"></td>
+                    <td><input type="reset" class="form-select form-control" value="Cancel"></td>
                 </form>
               </table>
               <?php
@@ -174,14 +177,16 @@
                     die("Connection failed: " . mysqli_connect_error());
                 } else {
                     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                    $routeid = $_POST['car_route_id'];
-                    $start = $_POST['startid'];
-                    $driver = $_POST['Driver_ID'];
-                    $vehicle = $_POST['vehicle_registration'];
-                    $dated = $_POST['date_of_driving_circle'];
-                    $timeid = $_POST['time_id'];
+                    $driverid = $_POST['driverid'];
+                    $named = $_POST['named'];
+                    $sex = $_POST['sex'];
+                    $date = $_POST['date'];
+                    $username = $_POST['username'];
+                    $passwordd = $_POST['passwordd'];
+                    $numphone = $_POST['numphone'];
+                    $driverno = $_POST['driverno'];
                     
-                    $sql = "INSERT INTO `driving_cycle` (driving_cycle_id,car_route_id, stratid, Driver_ID, vehicle_registration, date_of_driving_circle, time_id,remaining_tickets) VALUES (NULL,'$routeid', '$start','$driver','$vehicle','$dated','$timeid',Default)";
+                    $sql = "INSERT INTO `driver` (Driver_ID,NameD, sex, Date_of_Birth, Username, PasswordD, Number_Phone,Driver_license_no) VALUES (NULL,'$named', '$sex','$date','$username','$passwordd','$numphone','$driverno')";
                         if (mysqli_query($conn, $sql)) {
                             echo "New record created successfully";
                         // header('Location:showBorrowing.php');
