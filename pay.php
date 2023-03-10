@@ -102,35 +102,146 @@
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) == 1){
                             while($row = mysqli_fetch_assoc($result)){
+                            $nameu = $row['NameP'];
                             echo $row["NameP"];
                             echo " : แต้มสะสม ";
                             echo $row["Points"];
+                            $point = $row['Points'];
                             $userid = $row["Passenger_ID"];
+                            $today = date("Y-m-d");
                             }
                         }
                     }
+                ?>
+                <?php
+                    $drivecycleid = $_POST['driveCycleID'];
+                    $numtics = $_POST['numtickets'];
+                    $getin = $_POST['GetIn'];
+                    $getoff = $_POST['GetOff'];
+                    $gotime = $_POST['goTime'];
+                    $i = 1;
+                    while($i <= $numtics) {
+                        $sql = "INSERT INTO `ticket` (`Ticket_ID`, `Driving_cycle_ID`, `Ticket_Price`, `broding_point_id`, `drop_off_id`) VALUES (NULL, '$drivecycleid', '35', '$getin', '$getoff')";
+                        $result = mysqli_query($conn, $sql);
+                        $i = $i+1;
+                    }
+                    $i = $i-2;
+                    $sql = "SELECT * FROM `driving_cycle` WHERE `driving_cycle_id` = '$drivecycleid'";
+                    $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0){
+                            while($row = mysqli_fetch_array($result)){
+                                // $drivecycleid = $row['driving_cycle_id']; 
+                                $remainticket = $row['remaining_tickets'];
+                                // echo $remainticket;
+                            }
+                        }
+                    $remain = $remainticket - $numtics;
+                    $sqlup = "UPDATE `driving_cycle` SET `remaining_tickets` = '$remain' WHERE `driving_cycle_id` = '$drivecycleid'";
+                    $result = mysqli_query($conn, $sqlup);
                 ?>
                     <br>
                     <p class="section-title pr-5"><span class="pr-2">HI</span></p>
                     <h1 class="mb-4">ชำระเงิน</h1>
                     <table border="1" bordercolor="#ff0000">
                         <tr>
-                            <th>ชื่อ</th>
-                            <th>สายรถ</th>
+                            <!-- <th>ชื่อ</th> -->
+                            <th>รหัสตั๋ว</th>
+                            <!-- <th>สายรถ</th> -->
                             <th>จุดขึ้นรถ</th>
                             <th>จุดลงรถ</th>
                             <th>ราคา</th>
                             <th>เวลา</th>
                         </tr>
-                        <tr>
-                            <td>นายเอ บีซี</td>
-                            <td>สายสีฟ้า</td>
-                            <td>มหาวิทยาลัยนเรศวร</td>
-                            <td>สถานีรถไฟ</td>
-                            <td>35</td>
-                            <td>10:30</td>
+                            <?php
+                             $sql = "SELECT MAX(`Ticket_ID`) FROM `ticket`";
+                             $result = mysqli_query($conn, $sql);
+                                 if (mysqli_num_rows($result) > 0){
+                                     while($row = mysqli_fetch_array($result)){
+                                        // echo "<td>";
+                                        $maxid = $row['MAX(`Ticket_ID`)'];
+                                        // echo "</td>"; 
+                                     }
+                                 }
+                            
+                            $ticketsid = array();
+                            while($i >= 0){
+                                $id = $maxid-$i;
+                                $sql = "SELECT * FROM `ticket` inner join `parking_spot` ON `ticket`.`drop_off_id` = `parking_spot`.`car_reservation_code` WHERE `Ticket_ID` = '$id'";
+                                $result = mysqli_query($conn, $sql);
+                                 if (mysqli_num_rows($result) > 0){
+                                    while($row = mysqli_fetch_array($result)){
+                                        echo "<tr>";
+                                        echo "<td>";
+                                        echo $row['Ticket_ID'];
+                                        // $ttt = $row['Ticket_ID'];
+                                        echo "</td>"; 
+                                        array_push($ticketsid, $row['Ticket_ID']);
+                                        echo "<td>";
+                                        if ($row['broding_point_id']==1){
+                                            echo "บขส. 2";
+                                        }else{
+                                            echo "มหาวิทยาลัยนเรศวร";
+                                        }
+                                        echo "</td>"; 
+                                        echo "<td>";
+                                        echo $row['Parking_place_name'];
+                                        echo "</td>"; 
+                                        echo "<td>";
+                                        echo $row['Ticket_Price'];
+                                        echo "</td>"; 
+                                        echo "<td>";
+                                        echo $gotime;
+                                        echo "</td>"; 
+                                        echo "</tr>";
+                                     }
+                                 }
+                                 $i = $i-1;
+                            }
+                            ?>
                         </tr>
                     </table>
+                    <?php 
+                        $ctickets = count($ticketsid);
+                        // echo $ticketsid[0]; 
+                        // echo $ticketsid[1];
+                        // echo $ticketsid[2];
+                    ?>
+                    <br>
+                    <fieldset>
+                    <div>
+                    <form method="post" action="historyTickets.php">
+                        <!-- <input type="hidden" name="TicketsID" value="<?php echo $ticketsid; ?>"> -->
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จ่ายเงิน</button>
+                    </form>
+                    </div>
+                    </fieldset>
+                    <?php
+                include ('connectdatabase.php');
+                if (!$conn){
+                    die("Connection failed: " . mysqli_connect_error());
+                } else {
+                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                    $t = 0;
+                    while($t < $ctickets){
+                            $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate) VALUES ('$userid','$ticketsid[$t]','$today')";
+                            if (mysqli_query($conn, $sql)) {
+                                $plus = $point+$t+1;
+                                $sqlup = "UPDATE `passenger` SET `Points`='$plus' WHERE Passenger_ID = '$userid' ";
+                                mysqli_query($conn, $sqlup);
+                                // echo "จองสำเร็จ";
+                            // header('Location:showBorrowing.php');
+                            } else {
+                            echo "Error: ". mysqli_error($conn);
+                            } 
+                         $t = $t+1;
+                        }      
+                        echo "ได้แต้มสะสมเพิ่ม ";
+                        echo $plus-$point;
+                        echo " แต้ม";
+                    }
+                }
+                mysqli_close($conn);
+            ?>
                     </div>
                 </div>
             </div>
