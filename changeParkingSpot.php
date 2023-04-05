@@ -111,6 +111,7 @@
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0){
                                 while($row = mysqli_fetch_assoc($result)){
+                                    $start = str_split($row["start_NU_TC"]);
                                     // $drivingid = $row["driving_cycle_id"];
                                     echo "<tr>";
                                     echo "<td>";
@@ -119,8 +120,23 @@
                                     echo "<td>";
                                     echo $row["Parking_place_name"];
                                     echo "</td>";
-                                    echo "<td>";
-                                    echo $row["route_b_r"];
+                                    $r = str_split($row["route_b_r"]);
+                                        if ($r[0] == 1 and $r[1] == 1) {
+                                            echo "<td style='color:blue'>";
+                                            echo "สายสีฟ้า";
+                                            echo "<font color='000000'>";
+                                            echo ",";
+                                            echo "<font color='FF0000'>";
+                                            echo "สายสีแดง";
+                                        }
+                                        elseif ($r[0] == 1 and $r[1] == 0){
+                                            echo "<td style='color:blue'>";
+                                            echo "สายสีฟ้า";
+                                        }   
+                                        else {
+                                            echo "<td style='color:red'>";
+                                            echo "สายสีแดง";
+                                        }
                                     echo "</td>";                                
                                     ?>
                                     <td><button class="form-control" data-toggle="modal" href=edit/editformParkingSpot.php" data-target="#theModal" onclick="window.location='edit/editformParkingSpot.php?id=<?php echo $row["car_reservation_code"];?>'">Edit</button></td>
