@@ -7,6 +7,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
@@ -27,6 +29,19 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #F5F8FF;
+        }
+        .text-pink {
+            color: #FF5656;
+        }
+    </style>
 </head>
 
 <body>
@@ -87,40 +102,119 @@
 
              <!-- ***** กราฟ***** -->
 
-             <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-             <body>
              
-             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-             
-             <script>
-             
-             var xValues = ["วันที่1", "วันที่1", "วันที่2", "วันที่2", "วันที่3", "วันที่3", "วันที่4", "วันที่4", "วันที่5", "วันที่5", "วันที่6", "วันที่6", "วันที่7", "วันที่7"];
-             var yValues = [66,64,  51,62,  67,82,  50,60, 65,79, 92,85, 97,100,
-             ,10];
-             var barColors = ["red", "blue","red", "blue","red", "blue","red", "blue","red", "blue", "red", "blue","red", "blue",];
-             
-             new Chart("myChart", {
-               type: "bar",
-               data: {
-                 labels: xValues,
-                 datasets: [{
-                   backgroundColor: barColors,
-                   data: yValues
-                 }]
-               },
-               options: {
-                 legend: {display: false},
-                 title: {
-                   display: true,
-                   text: "สรุปประวัติการจองแบบรายวัน"
-                 }
-               }
-             });
-             </script>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="">
+    <canvas id="myChart" height="500px"></canvas>
+</div>
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/chart.js/dist/chart.umd.js"></script>
+    <script>
+    let myChart
+
+    /** function สำหรับเลือกการออกรายงาน */
+    function selectReport(point, el, type){
+        setActive(el)
+        myChart.destroy()
+        renderChart(point, type)
+    }
+
+    /** function สำหรับ active ปุ่มกด */
+    function setActive(_this){
+        $('#salesbtn button').removeClass('btn-secondary').addClass('btn-outline-secondary')
+        $(_this).addClass('btn-secondary').removeClass('btn-outline-secondary')
+    }
+
+    /** function สำหรับสร้างกราฟด้วย Chart.js */
+    function renderChart(endpoint, type = 'bar') {  
+        /*
+        endpoint คือ ปลายทาง API ที่เราจะเรียกข้อมูล    
+        type คือ รูปแบบการแสดงผลของกราฟ
+        */
+
+        /** เริ่มต้นโดยการ request ไปยัง API ปลายทางที่เราเลือก*/
+        $.ajax({  
+            type: "GET",  
+            url: "service/" + endpoint 
+        }).done(function(data) {  
+
+            /** สร้าง กราฟตามที่ตั้งค่าไว้ */
+            myChart = new Chart($('#myChart'), {
+                type: type,
+                data: {
+                    labels: data.response.labels,
+                    datasets: [{
+                        label: data.response.label,
+                        data: data.response.results,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,  
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+    };
+
+    /** เรียกใช้งาน function สำหรับเริ่มต้นการทำงาน */
+    renderChart('year.php', 'bar')
+
+    </script>
+
+             <?php
+                        include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        } else {
+                            $sql = "SELECT * FROM `reserve` ";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    $car_reservation = $row["Passenger_ID"];
+                                    echo "<tr>";
+                                    echo "<td>";
+                                    echo $row["Passenger_ID"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo "<td>";
+                                    echo $row["bookDate"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                }
+                            }
+                        }
+                    ?>
+                <?php
+                        include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
+                        } else {
+                            $sql = "SELECT COUNT(bookDate) FROM `reserve`";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    echo "<br>";
+                                    echo $row['COUNT(bookDate)'];
+                                }
+                            }
+                        }
+                    ?>
+            
              
              </body>
  
-             <script src="http://code.jquery.com/jquery-latest.js"></script>
+     
  
           
              </select>

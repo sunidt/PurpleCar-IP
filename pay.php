@@ -108,6 +108,7 @@
                             echo $row["Points"];
                             $point = $row['Points'];
                             $userid = $row["Passenger_ID"];
+                            date_default_timezone_set('Asia/Bangkok');
                             $today = date("Y-m-d");
                             }
                         }
@@ -207,46 +208,39 @@
                     </table>
                     <?php 
                         $ctickets = count($ticketsid);
-                        // echo $ticketsid[0]; 
+                        // echo $maxid; 
                         // echo $ticketsid[1];
                         // echo $ticketsid[2];
                     ?>
                     <br>
                     <fieldset>
                     <div>
-                    <form method="post" action="historyTickets.php">
-                        <!-- <input type="hidden" name="TicketsID" value="<?php echo $ticketsid; ?>"> -->
-                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จ่ายเงิน</button>
+                        <br>
+                    <form method="post" action="addReserveMoney.php">
+                        <input type="hidden" name="lastTicket" value="<?php echo $maxid; ?>">
+                        <input type="hidden" name="numTicks" value="<?php echo $numtics; ?>">
+                        <label for="fileReciept">อัปโหลดใบเสร็จจ่ายเงิน (จะได้แต้มสะสม <?php echo $numtics; ?> แต้ม)</label>
+                        <input type="file" name="fileReciept" id="fileReciept" required>
+                        <br><br>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จ่ายเงิน <?php echo $numtics*35; ?> บาท</button>
                     </form>
                     </div>
+                    <br><br>
+                    <?php 
+                        if($point >= $numtics*35){
+                    ?>
+                    <div>
+                    <form method="post" action="addReservePoints.php">
+                        <p align="center">หรือ</p>
+                        <input type="hidden" name="lastTicket" value="<?php echo $maxid; ?>">
+                        <input type="hidden" name="numTicks" value="<?php echo $numtics; ?>">
+                        <input type="hidden" name="fileReciept" id="fileReciept" value="img/points.png">
+                        <!-- <br> -->
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จ่ายด้วยแต้มสะสม <?php echo $numtics*35; ?> แต้ม</button>
+                    </form>
+                    </div>
+                    <?php } ?>
                     </fieldset>
-                    <?php
-                include ('connectdatabase.php');
-                if (!$conn){
-                    die("Connection failed: " . mysqli_connect_error());
-                } else {
-                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                    $t = 0;
-                    while($t < $ctickets){
-                            $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate) VALUES ('$userid','$ticketsid[$t]','$today')";
-                            if (mysqli_query($conn, $sql)) {
-                                $plus = $point+$t+1;
-                                $sqlup = "UPDATE `passenger` SET `Points`='$plus' WHERE Passenger_ID = '$userid' ";
-                                mysqli_query($conn, $sqlup);
-                                // echo "จองสำเร็จ";
-                            // header('Location:showBorrowing.php');
-                            } else {
-                            echo "Error: ". mysqli_error($conn);
-                            } 
-                         $t = $t+1;
-                        }      
-                        echo "ได้แต้มสะสมเพิ่ม ";
-                        echo $plus-$point;
-                        echo " แต้ม";
-                    }
-                }
-                mysqli_close($conn);
-            ?>
                     </div>
                 </div>
             </div>
