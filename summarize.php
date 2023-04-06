@@ -86,146 +86,182 @@
     <div class="container-fluid pt-5 pb-3">
         <div class="container">
             <div class="text-center pb-2">
-                <p class="section-title px-5"><span class="px-2">สรุปประวัติการจอง</span></p>
+                
                 
             </div>
             <div class="row">
                 <div class="col-12 text-center mb-2">
                     <ul class="list-inline mb-4" id="portfolio-flters">
-                        
-                        <li class="btn btn-outline-primary m-1" data-filter=".first">รายวัน</li>
-                        <li class="btn btn-outline-primary m-1" data-filter=".second">รายเดือน</li>
-                        <li class="btn btn-outline-primary m-1" data-filter=".third">รายปี</li>
-                    </ul>
-                </div>
-            </div>
-
+              
              <!-- ***** กราฟ***** -->
 
-             
-
-  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+         
+             <fieldset>
+             <head>
+	<title>สรุปประวัติการจอง</title>
+	<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<div class="">
-    <canvas id="myChart" height="500px"></canvas>
+	<div class="container-fluid">
+		<h1 class="text-center my-4">สรุปประวัติการจอง</h1>
+		<div id="salesbtn" class="d-flex justify-content-center">
+			<button class="btn btn-secondary mx-2" onclick="selectReport('day.php', this, 'line')">วัน</button>
+			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('month.php', this, 'line')">เดือน</button>
+            <button class="btn btn-secondary mx-2" onclick="selectReport('year.php', this, 'bar')">ปี</button><!-- ดึงข้อมูลจากโฟร์เดอร์ Service -->
+                                                                                   
+		</div>
+		<div class="">
+			<canvas id="myChart" height="500px"></canvas>
+		</div>
+	</div>
+
+	<script src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		let myChart;
+
+		/** function สำหรับเลือกการออกรายงาน */
+		function selectReport(endpoint, el, type){
+			setActive(el);
+			myChart.destroy();
+			renderChart(endpoint, type);
+		}
+
+		/** function สำหรับ active ปุ่มกด */
+		function setActive(_this){
+			$('#salesbtn button').removeClass('btn-secondary').addClass('btn-outline-secondary');
+			$(_this).addClass('btn-secondary').removeClass('btn-outline-secondary');
+		}
+
+		/** function สำหรับสร้างกราฟด้วย Chart.js */
+		function renderChart(endpoint, type = 'bar') {  
+			/*
+			endpoint คือ ปลายทาง API ที่เราจะเรียกข้อมูล    
+			type คือ รูปแบบการแสดงผลของกราฟ
+			*/
+
+			/** เริ่มต้นโดยการ request ไปยัง API ปลายทางที่เราเลือก*/
+			$.ajax({  
+				type: "GET",  
+				url: "service/" + endpoint 
+			}).done(function(data) {  
+
+				/** สร้าง กราฟตามที่ตั้งค่าไว้ */
+				myChart = new Chart($('#myChart'), {
+					type: type,
+					data: {
+						labels: data.response.labels,
+						datasets: [{
+							label: data.response.label,
+							data: data.response.results,
+							borderWidth: 3
+						}]
+					},
+                    
+					options: {
+						maintainAspectRatio: false,
+						responsive: true,  
+						scales: {
+							y: {
+								beginAtZero: true
+							}
+						}
+					}
+				});
+			})
+		};
+
+		/** กำหนดให้ กราฟรายวันขึ้นก่อนเมื่อเปิดนะจ่ะ */
+		renderChart('day.php', 'line') 
+    
+	</script>
+
+       <!-- ยังรวมหน้าไม่ได้ ทำได้ทำต่อด้วยกูก็ทำอยู่ -->
+<form>
+<div id="piechart"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<?php
+    $dropoff = array();
+    $resultdata = array();
+    $data = array();
+    include 'connectdatabase.php';
+    for ($p = 1; $p <= 15; $p++) {
+        $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = $p";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
+                array_push($dropoff,$row['Parking_place_name']);
+                // echo $row['Parking_place_name'].":";
+            }
+        }
+        // array_push($dropoff,$p);
+        $sql = "SELECT COUNT(drop_off_id) FROM `ticket` RIGHT JOIN `reserve` ON `ticket`.`Ticket_ID` = `reserve`.`Ticket_ID` WHERE `drop_off_id` = $p";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
+                array_push($resultdata,$row['COUNT(drop_off_id)']);
+                // echo " ".$row['COUNT(drop_off_id)']."  ";
+            }
+        }
+        // array_push($data,"['".$dropoff[$p-1]."'".", ".$resultdata[$p-1]."]");
+    }
+    $cparking = count($dropoff);
+    // echo $dropoff;
+    // echo $resultdata;
+    // echo $data;
+    // echo $cparking;
+    // $i = 0;
+    //     while($i<$cparking){
+    //         echo $dropoff[$i];
+    //         $i = $i+1;
+    //     }
+?>
+<div style="width: 300px; height: 300px;">
+    <canvas id="myChart" ></canvas>
 </div>
-  <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="node_modules/chart.js/dist/chart.umd.js"></script>
-    <script>
-    let myChart
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('piechart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: <?php echo json_encode($dropoff); ?>,
+            datasets: [{
+                label: 'Total Users',
+                data: <?php echo json_encode($resultdata); ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+    
+</script> 
 
-    /** function สำหรับเลือกการออกรายงาน */
-    function selectReport(point, el, type){
-        setActive(el)
-        myChart.destroy()
-        renderChart(point, type)
-    }
+</body>
+</form>
+</fieldset>
 
-    /** function สำหรับ active ปุ่มกด */
-    function setActive(_this){
-        $('#salesbtn button').removeClass('btn-secondary').addClass('btn-outline-secondary')
-        $(_this).addClass('btn-secondary').removeClass('btn-outline-secondary')
-    }
-
-    /** function สำหรับสร้างกราฟด้วย Chart.js */
-    function renderChart(endpoint, type = 'bar') {  
-        /*
-        endpoint คือ ปลายทาง API ที่เราจะเรียกข้อมูล    
-        type คือ รูปแบบการแสดงผลของกราฟ
-        */
-
-        /** เริ่มต้นโดยการ request ไปยัง API ปลายทางที่เราเลือก*/
-        $.ajax({  
-            type: "GET",  
-            url: "service/" + endpoint 
-        }).done(function(data) {  
-
-            /** สร้าง กราฟตามที่ตั้งค่าไว้ */
-            myChart = new Chart($('#myChart'), {
-                type: type,
-                data: {
-                    labels: data.response.labels,
-                    datasets: [{
-                        label: data.response.label,
-                        data: data.response.results,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    responsive: true,  
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        })
-    };
-
-    /** เรียกใช้งาน function สำหรับเริ่มต้นการทำงาน */
-    renderChart('year.php', 'bar')
-
-    </script>
-
-             <!-- <?php
-                        include('connectdatabase.php');
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        } else {
-                            $sql = "SELECT * FROM `reserve` ";
-                            $result = mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0){
-                                while($row = mysqli_fetch_assoc($result)){
-                                    $car_reservation = $row["Passenger_ID"];
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["Passenger_ID"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo "<td>";
-                                    echo $row["bookDate"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                }
-                            }
-                        }
-                    ?>
-                <?php
-                        include('connectdatabase.php');
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        } else {
-                            $sql = "SELECT COUNT(bookDate) FROM `reserve`";
-                            $result = mysqli_query($conn, $sql);
-                            if (mysqli_num_rows($result) > 0){
-                                while($row = mysqli_fetch_assoc($result)){
-                                    echo "<br>";
-                                    echo $row['COUNT(bookDate)'];
-                                }
-                            }
-                        }
-                    ?> -->
-            
-             
-             </body>
- 
-     
- 
-          
-             </select>
-             
-  <!-- ***** กราฟ***** -->
   
 
-
-    <!-- Footer Start -->
- 
-    <!-- Footer End -->
 
 
     <!-- Back to Top -->
