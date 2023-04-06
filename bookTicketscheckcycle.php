@@ -141,9 +141,9 @@
                                 array_push($r,0);
                             }
                         }
-                        echo count($r);
-                        echo $r[0];
-                        echo $r[1];
+                        // echo count($r);
+                        // echo $r[0];
+                        // echo $r[1];
                     } else {
                         echo "ไม่เจอ";
                     }

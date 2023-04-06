@@ -62,7 +62,7 @@
 
     <!-- Header Start -->
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px">
             <h3 class="display-3 font-weight-bold text-white">ประวัติการจองตั๋วรถม่วง</h3>
             <div class="d-inline-flex text-white">
 
@@ -71,8 +71,8 @@
     </div>
     <!-- Header End -->
     
-<div class="container-fluid pt-5">
-    <div class="container pb-3">
+<div class="container-fluid pt-10">
+    <div class="container pb-10">
         <?php
         include('connectdatabase.php');
         if (!$conn) {
@@ -90,20 +90,22 @@
             }
         }
         ?>
+<div class="container">
+    <table class = "table table-striped mt-4 text-#000000 ">
+    <thead>
+        <tr class="bg-primary  font-weight-bold mx-auto " >  
+        <td>รหัสผู้โดยสาร</td>
+        <td>รหัสตั๋ว</td>
+        <td>ราคาตั๋ว</td>
+        <td>จุดขึ้นรถ</td>
+        <td>จุดลงรถ</td>
+        <td>วันที่จอง</td>
+        <td>เวลา</td>
+        <td>ใบเสร็จ</td>
+        </tr>
+    </thead>
 
-
-<table width='100%'>
-    <tr>
-    <th>รหัสผู้โดยสาร</th>
-    <th>รหัสตั๋ว</th>
-    <th>ราคาตั๋ว</th>
-    <th>จุดขึ้นรถ</th>
-    <th>จุดลงรถ</th>
-    <th>วันที่จอง</th>
-    <th>เวลา</th>
-    </tr>
-
-        <?php
+<?php
         include('connectdatabase.php');
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
@@ -145,7 +147,9 @@
                             echo "<td>";
                                 echo $row["time_id"];
                             echo "</td>";
-                           
+                            echo '<td><img src="receipt/';
+                            echo $row["receipt"];
+                            echo '" width = "100px" height="100px"</td>';
                     }
                 }
             }   

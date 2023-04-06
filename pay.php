@@ -216,7 +216,7 @@
                     <fieldset>
                     <div>
                         <br>
-                    <form method="post" action="addReserveMoney.php">
+                    <form method="post" action="addReserveMoney.php" enctype="multipart/form-data">
                         <input type="hidden" name="lastTicket" value="<?php echo $maxid; ?>">
                         <input type="hidden" name="numTicks" value="<?php echo $numtics; ?>">
                         <label for="fileReciept">อัปโหลดใบเสร็จจ่ายเงิน (จะได้แต้มสะสม <?php echo $numtics; ?> แต้ม)</label>

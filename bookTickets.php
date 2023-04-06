@@ -93,6 +93,7 @@
                                     echo " : แต้มสะสม ";
                                     echo $row["Points"];
                                     $userid = $row["Passenger_ID"];
+                                    date_default_timezone_set('Asia/Bangkok');
                                     $today = date("Y-m-d");
                                     // echo $today;
                                 }

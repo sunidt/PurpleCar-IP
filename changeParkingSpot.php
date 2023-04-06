@@ -68,10 +68,10 @@
     <!-- Header End -->
 
  <!-- Registration Start -->
- <div class="container-fluid py-5 d-flex flex-column align-items-center justify-content-center" align="center">
-    <div class="container d-flex flex-column align-items-center justify-content-center" align="center">
+ <div class="container-fluid py-5 d-flex flex-column align-items-center justify-content-center" >
+    <div class="container d-flex flex-column  justify-content-center" align="center">
     <div class="page-heading normal-space"> 
-    <div class="col-lg-12">
+    <div class="col-lg-12" >
       <div class="container">
           <div class="col-lg-12">
                 <div class="item">
@@ -79,6 +79,7 @@
                     <!--<div class="current-bid">ต้องเปลี่ยนใน css--> 
                       <div class="col-lg-12">
                         <span class="mini-heading"><h4>แก้ไขจุดจอดรถ</h4></span>
+                        <!--<p>สายรถที่ 10 คือสายสีฟ้า สายรถที่ 01 คือสายสีแดง สายรถที่ 11 คือสายสีฟ้าและสายสีแดง</p>-->
                       </div>
                     <!--</div>-->
                   </div>
@@ -94,8 +95,9 @@
                   </fieldset>
 
                 </div> -->
+                <p align="rigth">สายรถที่ 10 คือสายสีฟ้า สายรถที่ 01 คือสายสีแดง สายรถที่ 11 คือสายสีฟ้าและสายสีแดง</p>
               <br>
-              <table width='100%'>
+              <table width='65%'>
                 <tr>
                     <th>รหัสจุดจอดรถ</th>
                     <th>ชื่อสถานที่จุดจอดรถ</th>
@@ -113,13 +115,11 @@
                                 while($row = mysqli_fetch_assoc($result)){
                                     $start = str_split($row["start_NU_TC"]);
                                     // $drivingid = $row["driving_cycle_id"];
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["car_reservation_code"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo $row["Parking_place_name"];
-                                    echo "</td>";
+                                    ?>
+                                    <tr>
+                                    <td align="center"><?php echo $row["car_reservation_code"]; ?></td>
+                                    <td ><?php echo $row["Parking_place_name"]; ?></td>
+                                    <?php
                                     $r = str_split($row["route_b_r"]);
                                         if ($r[0] == 1 and $r[1] == 1) {
                                             echo "<td style='color:blue'>";
@@ -150,8 +150,8 @@
                     
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                     <td></td>
-                    <td><input type="text" name="Parking_place_name" size="30"></td>
-                    <td><input type="text" name="route_b_r" size="6"></td>
+                    <td><input type="text" class="form-control"  name="Parking_place_name" size="20" placeholder= "ชื่อสถานที่"></td>
+                    <td><input type="text" class="form-control" style="width: 200px" name="route_b_r" size="5" placeholder= "10, 01, 11"></td>
                     
                     <td><input type="submit" class="form-control" value="Add"></td>
                     <td><input type="reset" class="form-control" value="Cancel"></td>

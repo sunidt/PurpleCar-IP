@@ -66,8 +66,8 @@
     </div> -->
     <!-- Header End -->
 
-
-    <!-- About Start -->
+<!-- 
+    About Start
     <div class="container-fluid py-5 ">
         <div class="container">
             <div class="row align-items-center d-flex flex-column align-items-center justify-content-center">
@@ -83,22 +83,25 @@
     </div>
     <!-- About End -->
     
-    <br>
-              <table width='100%'>
-                <tr>
-                    <th>รหัสเวลา</th>
-                    <th>เวลา</th>
-                    <th>สายรถ</th>
-                    <th>จุดเริ่มต้น</th>
-                    <th></th><th></th>
-                </tr>
-
-    <!-- Facilities Start -->
-    <div class="container-fluid pt-5">
+    
+              
+    <!-- Facilities Start --> 
+    <div class="container-fluid py-5 d-flex flex-column align-items-center justify-content-center" align="center">
+    <div class="container d-flex flex-column align-items-center justify-content-center" align="center">
+    <div class="page-heading normal-space"> 
+    <div class="col-lg-12">
         <div class="container">
-            <div class="text-center pb-2">
-                <h1 class="mb-4">แก้ไขเวลาวิ่งรถ</h1>
-            </div>
+            <div class="col-lg-12 container d-flex flex-column  align-items-center justify-content-center" align="center">
+                <div class="item">
+                  <div class="row">
+                    <!--<div class="current-bid">ต้องเปลี่ยนใน css--> 
+                      <div class="col-lg-12">
+                        <span class="mini-heading"><h4>แก้ไขเวลาวิ่งรถ</h4></span>
+                      </div>
+                    <!--</div>-->
+                  </div>
+                </div>
+              <br>
             <!-- <div class="container">
                 <div class="text-center pb-2">
                     <div class="col-lg-3">
@@ -113,6 +116,18 @@
                     <br>
                 </div>
             </div> -->
+            <p align="rigth">สายรถที่ 10 คือสายสีฟ้า สายรถที่ 01 คือสายสีแดง </p>
+            <p align="rigth">จุดเริ่มต้น 11 คือ มหาวิทยาลัยนเรศวร/บขส2 </p>
+            <table width='100%'>
+                
+                <tr>
+                    <th >รหัสเวลา</th>
+                    <th >เวลา</th>
+                    <th>สายรถ</th>
+                    <th>จุดเริ่มต้น</th>
+                    <th></th><th></th>
+                </tr>
+
             <?php
                         include('connectdatabase.php');
                         if (!$conn) {
@@ -125,17 +140,14 @@
                                 $start = [];
 
                                 while($row = mysqli_fetch_assoc($result)){
-                                                                       
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["time_id"];
-                                    echo "</td>";
-                                    echo "<td>";
-                                    echo substr(($row["timeT"]) ,0,5);
-                                    echo "</td>";
+                                         ?>                              
+                                    <tr>
+                                    <td ><?php echo $row["time_id"]; ?></td>
+                                    <td ><?php echo substr(($row["timeT"]) ,0,5); ?></td>
+                                    <?php
                                     $r = str_split($row["route_b_r"]);
                                         if ($r[0] == 1 ) {
-                                            echo "<td style='color:blue'>";
+                                            echo "<td style='color:blue '  >";
                                             echo "สายสีฟ้า";
                                         }
                                         else{
@@ -161,10 +173,10 @@
                     ?>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"><br>
                     
-                    <td><input class="form-control" type="text" name="time_id" size="12"></td>
-                    <td><input class="form-control" type="text" name="timeT" pattern="[0-9]{2}[:][0-9]{2}" size="7"></td>
-                    <td><input class="form-control" type="text" name="route_b_r" pattern="[0-9]{2}" size="5"></td>
-                    <td><input class="form-control" type="text" name="start_NU_TC" pattern="[0-9]{2}" size="20"></td>
+                    <td align="center"><input class="form-control" type="text" name="time_id" size="12" placeholder= "0000"></td>
+                    <td align="center"><input class="form-control" type="text" name="timeT" pattern="[0-9]{2}[:][0-9]{2}" size="7" placeholder= "00:00"></td>
+                    <td align="center"><input class="form-control" type="text" name="route_b_r" pattern="[0-9]{2}" size="5" placeholder= "10, 01"></td>
+                    <td align="center"><input class="form-control" type="text" name="start_NU_TC" pattern="[0-9]{2}" size="20" placeholder= "11"></td>
                     <td><input class="form-control" type="submit" value="Add"></td>
                     <td><input class="form-control" type="reset" value="Cancel"></td>
                 </form>

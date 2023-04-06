@@ -69,11 +69,11 @@
 
  <!-- Registration Start -->
  <div class="container-fluid py-5 d-flex flex-column align-items-center justify-content-center" align="center">
-    <div class="container d-flex flex-column align-items-center justify-content-center" align="center">
-    <div class="page-heading normal-space"> 
-    <div class="col-lg-12">
-      <div class="container">
-          <div class="col-lg-12">
+    <div class="container d-flex flex-column  align-items-center justify-content-center" align="center">
+    <div class="page-heading normal-space " align="center"> 
+    <div class="col-lg-12 ">
+      <div class="container ">
+          <div class="col-lg-12 container d-flex flex-column  align-items-center justify-content-center" align="center">
                 <div class="item">
                   <div class="row">
                     <!--<div class="current-bid">ต้องเปลี่ยนใน css--> 
@@ -89,15 +89,18 @@
                       <select name="Category" class="form-select" aria-label="Default select example" id="chooseCategory" onchange="this.form.click()">
                           <option selected>สายรถ</option>
                           <option value="blue">สายสีฟ้า</option>
-                          <option value="red">สายสีแดง</option>
+                          <option value="red">สายสีแดง</option cellpadding = "6" cellspacing = "0">
                       </select>
                   </fieldset>
 
                 </div> -->
+                <p align="rigth">สายรถที่ 1 คือสายสีฟ้า สายรถที่ 2 คือสายสีแดง </p>
+                <p align="rigth">สายจุดขึ้นรถ 1 คือ บขส2 สายรถที่ 9 คือ มหาวิทยาลัยนเรศวร </p>
+
               <br>
-              <table width='100%'>
-                <tr>
-                    <th>รหัสรอบรถ</th>
+              <table style="width:125%" >
+                <tr align="center">
+                    <th style="width:8%">รหัสรอบรถ</th>
                     <th>รหัสสายรถ</th>
                     <th>รหัสจุดขึ้นรถ</th>
                     <th>รหัสคนขับ</th>
@@ -112,23 +115,23 @@
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
                         } else {
-                            $sql = "SELECT * FROM `driving_cycle`";
+                            $sql = "SELECT * FROM `driving_cycle` inner join `driver` on `driving_cycle`.Driver_ID = `driver`.Driver_ID ORDER BY driving_cycle_id ASC";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0){
                                 while($row = mysqli_fetch_assoc($result)){
                                     $drivingid = $row["driving_cycle_id"];
                                     ?>
                                     <tr>
-                                    <td><?php echo $row["driving_cycle_id"]; ?></td>
-                                    <td><?php echo $row["car_route_id"]; ?></td>
-                                    <td><?php echo $row["stratid"]; ?></td>
-                                    <td><?php echo $row["Driver_ID"]; ?></td>
-                                    <td><?php echo $row["vehicle_registration"]; ?></td>
-                                    <td><?php echo $row["date_of_driving_circle"]; ?></td>
-                                    <td><?php echo $row["time_id"]; ?></td>  
-                                    <td><?php echo $row["remaining_tickets"]; ?></td>                           
-                                    <td><button data-toggle="modal" href=edit/editformDrivingCycle.php" data-target="#theModal" onclick="window.location='edit/editformDrivingCycle.php?id=<?php echo $row["driving_cycle_id"];?>'">Edit</button></td>
-                                    <td><button onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteDrivingCycle.php?id=<?php echo $drivingid;?>';}">Delete</button></td>
+                                    <td align="center"><?php echo $row["driving_cycle_id"]; ?></td>
+                                    <td align="center"><?php echo $row["car_route_id"]; ?></td>
+                                    <td align="center"><?php echo $row["stratid"]; ?></td>
+                                    <td align="center"><?php echo $row["Driver_ID"]; echo"  ";  echo $row["NameD"]; ?></td>
+                                    <td align="center"><?php echo $row["vehicle_registration"]; ?></td>
+                                    <td align="center"><?php echo $row["date_of_driving_circle"]; ?></td>
+                                    <td align="center"><?php echo $row["time_id"]; ?></td>  
+                                    <td align="center"><?php echo $row["remaining_tickets"]; ?></td>                           
+                                    <td ><button data-toggle="modal" class="form-control" href=edit/editformDrivingCycle.php" data-target="#theModal" onclick="window.location='edit/editformDrivingCycle.php?id=<?php echo $row["driving_cycle_id"];?>'">Edit</button></td>
+                                    <td><button class="form-control" onclick="JavaScript:if(confirm('Confirm Delete?')==true){window.location='delete/deleteDrivingCycle.php?id=<?php echo $drivingid;?>';}">Delete</button></td>
                                     </tr>
                                     <?php
                                 }
@@ -138,14 +141,15 @@
                     
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                     <td></td>
-                    <td><input type="text" name="car_route_id" size="12"></td>
-                    <td><input type="number" name="startid" size="3"></td>
-                    <td><input type="number" name="Driver_ID" size="3"></td>
-                    <td><input type="text" name="vehicle_registration" size="7"></td>
-                    <td><input type="date" name="date_of_driving_circle" size="1"></td>
-                    <td><input type="text" name="time_id" size="4"></td>
-                    <td><input type="submit" value="Add"></td>
-                    <td><input type="reset" value="Cancel"></td>
+                    <td><input align="center" type="text" class="form-control" name="car_route_id" size="8" placeholder= "1 , 2"></td>
+                    <td><input align="center" type="text" class="form-control" name="startid"  style="width: 175px" size="3" placeholder= "1 , 9"></td>
+                    <td><input align="center" type="text" class="form-control" name="Driver_ID" style="width: 175px" size="3" placeholder= "0"></td>
+                    <td><input align="center" type="text" class="form-control" name="vehicle_registration" size="13" placeholder= "ฮฮ-0000"></td>
+                    <td><input align="center" type="date" class="form-control" name="date_of_driving_circle" style="width: 200px" size="20"></td>
+                    <td><input align="center" type="text" class="form-control" name="time_id" size="8" placeholder= "0000"></td>
+                    <td style="width: 140px"></td>
+                    <td><input type="submit" class="form-control"  value="Add"></td>
+                    <td><input type="reset" class="form-control" value="Cancel"></td>
                 </form>
               </table>
               <?php

@@ -99,7 +99,7 @@
                                         echo $i;
                                         echo "</td>";
                                         echo "<td>";
-                                        echo substr(($row["time"]) ,0,5);
+                                        echo $row["timeT"];
                                         echo "</td>";
                                         $r = str_split($row["route_b_r"]);
                                         if ($r[0] == 1 ) {
@@ -117,7 +117,7 @@
                                         echo $i;
                                         echo "</td>";
                                         echo "<td>";
-                                        echo substr(($row["time"]) ,0,5);
+                                        echo $row["timeT"];
                                         echo "</td>";
                                         $r = str_split($row["route_b_r"]);
                                         if ($r[0] == 1 ) {

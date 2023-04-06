@@ -47,7 +47,7 @@
         } else {
             $t = 0;
             while($t < $ctickets){
-                $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate, receipt) VALUES ('$userid','$ticketsid[$t]','$today','$fileReciept')";
+                $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate, receipt) VALUES ('$userid','$ticketsid[$t]','$today','points.png')";
                 if (mysqli_query($conn, $sql)) {
                     $plus = $point-($t+1)*35;
                     $sqlup = "UPDATE `passenger` SET `Points`='$plus' WHERE Passenger_ID = '$userid' ";

@@ -74,8 +74,8 @@
     <div class="container d-flex flex-column align-items-center justify-content-center" align="center">
     <div class="page-heading normal-space"> 
     <div class="col-lg-12">
-      <div class="container">
-          <div class="col-lg-12">
+        <div class="container">
+            <div class="col-lg-12 container d-flex flex-column  align-items-center justify-content-center" align="center">
                 <div class="item">
                   <div class="row">
                     <!--<div class="current-bid">ต้องเปลี่ยนใน css--> 
@@ -97,9 +97,9 @@
 
                 </div> -->
               <br>
-              <table width='100%' >
-                <tr>
-                    <th>รหัสคนขับ</th>
+              <table style="width:125%"  >
+                <tr >
+                    <th style="width:8%" >รหัสคนขับ</th>
                     <th>ชื่อ-นามสกุล</th>
                     <th>เพศ</th>
                     <th>วัน/เดือน/ปีเกิด</th>
@@ -119,10 +119,10 @@
                             if (mysqli_num_rows($result) > 0){
                                 while($row = mysqli_fetch_assoc($result)){
                                     $car_reservation = $row["Driver_ID"];
-                                    echo "<tr>";
-                                    echo "<td>";
-                                    echo $row["Driver_ID"];
-                                    echo "</td>";
+                                    ?>
+                                    <tr>
+                                    <td><?php echo $row["Driver_ID"]; ?>
+                                    </td><?php
                                     echo "<td>";
                                     echo $row["NameD"];
                                     echo "</td>";
@@ -155,18 +155,18 @@
                     ?>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                     <td></td>
-                    <td><input type="text" class="form-select form-control" name="named" size="20"></td>
+                    <td><input type="text" class="form-select form-control" style="width: 150px" name="named" size="40" placeholder= "ชื่อ นามสกุล"></td>
                     <td><fieldset>
-                        <select name="sex" class="form-select form-control" size="" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                        <select name="sex" class="form-select form-control" style="width: 120px" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                             <option value="Male" >Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </fieldset></td>
                     <td><input type="date" class="form-select form-control" name="date"></td>
-                    <td><input type="text" class="form-select form-control" name="username" size="10"></td>
-                    <td><input type="password" class="form-select form-control" name="passwordd" size="20"></td>
-                    <td><input type="text" class="form-select form-control" name="numphone" size="10"></td>
-                    <td><input type="text" class="form-select form-control" name="driverno" size="8"></td>
+                    <td><input type="text" class="form-select form-control" name="username" size="15" placeholder="Prayut"></td>
+                    <td><input type="password" class="form-select form-control" name="passwordd" size="15" placeholder="prayut123"></td>
+                    <td><input type="text" class="form-select form-control" name="numphone" size="10" placeholder="0000000000"></td>
+                    <td><input type="text" class="form-select form-control" name="driverno" size="8" style="width: 110px" placeholder="12345678"></td>
                     <td><input type="submit" class="form-select form-control" value="Add"></td>
                     <td><input type="reset" class="form-select form-control" value="Cancel"></td>
                 </form>

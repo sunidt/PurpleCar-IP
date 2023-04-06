@@ -39,6 +39,20 @@
     }
     $ctickets = count($ticketsid);
     echo $ctickets;
+    
+    //upload image
+    $ext = pathinfo(basename($_FILES['fileReciept']['name']), PATHINFO_EXTENSION);
+    $imagename = (string)$maxid.".".$ext;
+    $image_path = "receipt/";
+    $upload_path = $image_path.$imagename;
+    //uploading
+    $seccess = move_uploaded_file($_FILES['fileReciept']['tmp_name'], $upload_path);
+    if ($seccess==false){
+        echo "Can not uploaded";
+        exit();
+    }else{
+        echo "Uploaded";
+    }
 ?>
 <?php
     include ('connectdatabase.php');
@@ -47,7 +61,7 @@
         } else {
             $t = 0;
             while($t < $ctickets){
-                $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate, receipt) VALUES ('$userid','$ticketsid[$t]','$today','$fileReciept')";
+                $sql = "INSERT INTO `reserve` (Passenger_ID, Ticket_ID, bookDate, receipt) VALUES ('$userid','$ticketsid[$t]','$today','$imagename')";
                 if (mysqli_query($conn, $sql)) {
                     $plus = $point+$t+1;
                     $sqlup = "UPDATE `passenger` SET `Points`='$plus' WHERE Passenger_ID = '$userid' ";

@@ -172,7 +172,7 @@
 
     </script>
 
-             <?php
+             <!-- <?php
                         include('connectdatabase.php');
                         if (!$conn) {
                             die("Connection failed: " . mysqli_connect_error());
@@ -209,7 +209,7 @@
                                 }
                             }
                         }
-                    ?>
+                    ?> -->
             
              
              </body>

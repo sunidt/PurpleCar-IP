@@ -90,102 +90,127 @@
                             if (mysqli_num_rows($result) == 1){
                                 while($row = mysqli_fetch_assoc($result)){
                                     echo $row["NameP"];
-                                    echo " : แต้มสะสม ";
-                                    echo $row["Points"];
                                     $userid = $row["Passenger_ID"];
-                                    date_default_timezone_set('Asia/Bangkok');
                                     $today = date("Y-m-d");
                                     // echo $today;
                                 }
                             }
                         }
             ?>
-              <!-- <p align = right class="mini-heading">แต้มสะสม : 100 แต้ม</p> -->
-              <!-- <span>Home > <a href="#">Explore</a></span> -->
             </div>
           </div>
         </div>
    
-        
-
     <!-- Team Start -->
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
-                
+                <h6 style="font-size: 40px;">จุดขึ้นรถ</h6>
+                <!-- <fieldset> -->
+                <!-- <form method="post" action= "bookTicketscheckcycle.php"> -->
+                <select name="GetIn" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
                 <?php
-                include ('connectdatabase.php');
-                if (!$conn){
-                    die("Connection failed: " . mysqli_connect_error());
-                } else 
-                     {
-                    $getin = $_POST['GetIn'];
-                    $getoff = $_POST['GetOff'];
-                    $godate = $_POST['goDate'];
-                    $gotime = $_POST['goTime'];
-                     }
-                // mysqli_close($conn);
-            ?>
-                <br>
-
-                <?php
-                include ('connectdatabase.php');
-                if (!$conn){
-                    die("Connection failed: " . mysqli_connect_error());
-                } else {
-                    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                        $gotime = $_POST['goTime'];
-                        $sql = "SELECT * FROM `driving_cycle` WHERE `stratid` = '$getin' and `date_of_driving_circle` = '$godate' and `time_id` = '$gotime'";
-                        $result = mysqli_query($conn, $sql);
-                        if (mysqli_num_rows($result) > 0){
-                            while($row = mysqli_fetch_array($result)){
-                                $drivecycleid = $row['driving_cycle_id']; 
-                                $remainticket = $row['remaining_tickets'];
-                                // echo $remainticket;
-                            }
+                    include('connectdatabase.php');
+                        if (!$conn) {
+                            die("Connection failed: " . mysqli_connect_error());
                         } else {
-                            echo "ไม่เจอ";
+                            $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = 1 or `car_reservation_code` = 9";
+                            $result = mysqli_query($conn, $sql);
+                            if (mysqli_num_rows($result) > 0){
+                                while($row = mysqli_fetch_array($result)){
+                                    // $carrecode = $row['car_reservation_code'];
+                                    ?>
+                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
+                                    <?php
+                                }
+                            }
                         }
-                    }
-                }
                 ?>
+                </select>
 
-                <br>
-                <form method="post" action="pay.php">
-                <h6 style="font-size: 40px;">จำนวนตั๋ว</h6>
+                <h6 style="font-size: 40px;">จุดลงรถ</h6>
                 <fieldset>
-                    <input type="hidden" name="driveCycleID" value="<?php echo $drivecycleid; ?>">
-                    <input type="hidden" name="GetIn" value="<?php echo $getin; ?>">
-                    <input type="hidden" name="GetOff" value="<?php echo $getoff; ?>">
-                    <input type="hidden" name="goTime" value="<?php echo $gotime; ?>">
-                    <input type="hidden" name="goDate" value="<?php echo $godate; ?>">
-                    <select name="numtickets" class="form-select form-control" aria-label="Default select example" id="getIn" onchange="this.form.click()">
+                    <select name="GetOff" class="form-select form-control" aria-label="Default select example" id="getOff" onchange="this.form.click()">
                     <?php
-                        $i = 1;
-                        while ($i <= $remainticket){
-                            ?>
-                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                            <?php
-                            $i = $i+1;
+                        include('connectdatabase.php');
+                            if (!$conn) {
+                                die("Connection failed: " . mysqli_connect_error());
+                            } else {
+                                $sql = "SELECT * FROM `parking_spot`";
+                                $result = mysqli_query($conn, $sql);
+                                if (mysqli_num_rows($result) > 0){
+                                    while($row = mysqli_fetch_array($result)){
+                                    ?>
+                                        <option value=<?php echo $row["car_reservation_code"] ?> selected><?php echo $row["Parking_place_name"] ?></option>
+                                    <?php
+                                }
+                            }
                         }
                     ?>
                     </select>
                 </fieldset>
                 <br>
+                <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
+                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today ?> onchange="this.form.click()">
+                <br>
                 <fieldset>
                     <div>
-                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">จอง</button>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">เช็ครอบรถ</button>
                     </div>
                 </fieldset>
-                </form>
+                <br>
+                <fieldset>
+                    <select name="goTime" class="form-select form-control" aria-label="Default select example" id="goTime" onchange="this.form.click()">
+
+                    </select>
+                </fieldset>
               </div>
             </div>
           </div>
         </div>
       </div>
-            
+      <script>
+        jQuery(function($) {
+
+        data_ajax(0);
+
+        $("#getIn").change(function() {
+            var getIn = $(this).val();
+            data_ajax(getIn);
+        });
+        $("#getOff").change(function() {
+            var getIn = $(this).val();
+            data_ajax(getOff);
+        });
+        $("#getIn").change(function() {
+            var goDate = $(this).val();
+            data_ajax(goDate);
+        });
+
+    });
+
+   function data_ajax(data) {
+        $.ajax({
+                url: "ajax/checkCycle.php",
+                type: "POST" ,
+                dataType: "json",
+                data: {getin : getIn, getoff : getOff, godate : godate},
+            success: function(data){
+                $("#cycle").empty();
+                console.log(data);
+                $.each(data, function(index, record) {
+                    // var row = $("<tr></tr>");
+                    var cell1 = $("<option value='record.t' selected>" + record.t + "</option>");
+                    // row.append(cell1);
+                    $("#cycle").append(cell1);
+                });
+
+            }
+            });
+   }
       
-   
+</script>
+
 
 
     <!-- Back to Top -->
