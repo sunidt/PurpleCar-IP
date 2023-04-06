@@ -13,35 +13,35 @@ header('Content-Type: application/json');
 | เมื่อได้ข้อมูลมาแล้ว ให้เราเขียนลอจิก ในการสร้าง array แต่ละชุด
 | เมื่อได้ array ตามแพทเทิลที่วางไว้แล้ว ก็นำมาใส่แทนชุดข้อมูลด้านล่างนี้
  */
-
 include('../connectdatabase.php');
 
 date_default_timezone_set('Asia/Bangkok');
-$year = date("Y");
-// echo $year;
-$startyear = 2022;
-$i = $startyear;
+$today = date("Y-m-d");
+// echo $today;
+$startdate = '2022-01-03';
+$endate = $today;
 $labels = array();
 $resultdata = array();
-while($i <= $year){
-    array_push($labels,$i);
-    $stry = (string)$i.'%';
-    // echo $stry;
-    $sql = "SELECT COUNT(bookDate) FROM `reserve` WHERE bookDate LIKE '$stry'";
+$currentdate = $startdate;
+
+while($currentdate <= $endate){
+    array_push($labels, $currentdate);
+    $sql = "SELECT COUNT(bookDate) FROM `reserve` WHERE bookDate = '$currentdate'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0){
         while($row = mysqli_fetch_assoc($result)){
             array_push($resultdata,$row['COUNT(bookDate)']);
         }
+    } else {
+        array_push($resultdata, 0);
     }
-    $i = $i+1;
+    $currentdate = date('Y-m-d', strtotime($currentdate . ' +1 day'));
 }
 
-$strMonthCut = array("", "", "2022", "2023");
 $response = [
     'status' => true,
     'response' => [
-        'label' => 'ยอดขายรายปี',
+        'label' => 'ยอดขายรายวัน',
         'labels' => $labels, 
         'results' => $resultdata
     ],
