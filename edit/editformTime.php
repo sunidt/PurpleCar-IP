@@ -44,7 +44,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav font-weight-bold mx-auto py-0">
                         <a href="../index1.php" class="nav-item nav-link">หน้าแรก</a>
-                        <a href="../historyTickets.php" class="nav-item nav-link">สรุปประวัติการจอง</a>
+                        <a href="../summarize.php" class="nav-item nav-link">สรุปประวัติการจอง</a>
                         <a href="../changeParkingSpot.php" class="nav-item nav-link">แก้ไขจุดจอดรถ</a>
                         <a href="../changeTime.php" class="nav-item nav-link active">แก้ไขเวลาวิ่งรถ</a>
                         <a href="../changeDricycle.php" class="nav-item nav-link ">แก้ไขรอบรถ</a>
@@ -91,13 +91,13 @@
                 $query = mysqli_query($conn,$sql);
                 $result = mysqli_fetch_array($query, MYSQLI_ASSOC);   
             ?>
-            <form method="POST" action="editTime.php" name = "frmAdd">
-                รหัสเวลา : <input type="hidden" name="time_id" value="<?php echo $result["time_id"];?>"><?php echo $result["time_id"];?><br><br>
-                เวลา : <input type="hidden" name="timeT" value="<?php echo $result["timeT"];?>"><?php echo $result["timeT"];?><br><br>
-                สายรถ : <input type="text" pattern="[0-9]{2}" name="route_b_r" size="10" value="<?php echo $result["route_b_r"];?>"><br><br>
-                จุดเริ่มต้น : <input type="text" pattern="[0-9]{2}" name="start_NU_TC" size="10" value="<?php echo $result["start_NU_TC"]?>"><br><br>
-            <input type="submit" value="Edit">
-            <input type="reset" value="Cancel">
+            <form method="POST" action="editTime.php" name = "frmAdd" style="text-align:center;width:100%;">
+                รหัสเวลา : <input type="hidden" class="form-select form-control" name="time_id" value="<?php echo $result["time_id"];?>"><?php echo $result["time_id"];?><br><br>
+                เวลา : <input type="hidden" class="form-select form-control" name="timeT" value="<?php echo $result["timeT"];?>"><?php echo $result["timeT"];?><br><br>
+                สายรถ : <input type="text" class="form-select form-control" pattern="[0-9]{2}" name="route_b_r" size="10" value="<?php echo $result["route_b_r"];?>"><br><br>
+                จุดเริ่มต้น : <input type="text" class="form-select form-control" pattern="[0-9]{2}" name="start_NU_TC" size="10" value="<?php echo $result["start_NU_TC"]?>"><br><br>
+            <input type="submit" value="Edit" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
+            <input type="reset" value="Cancel" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
             </form>
             </div>
         </div>

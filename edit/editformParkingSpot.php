@@ -43,12 +43,12 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav font-weight-bold mx-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">หน้าแรก</a>
-                        <a href="about.html" class="nav-item nav-link">สรุปประวัติการจอง</a>
-                        <a href="about.html" class="nav-item nav-link active">แก้ไขจุดจอดรถ</a>
-                        <a href="about.html" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
-                        <a href="../changDricycle.php" class="nav-item nav-link">แก้ไขรอบรถ</a>
-                        <a href="datadrivers.php" class="nav-item nav-link">แก้ไขข้อมูลคนขับรถ</a>
+                        <a href="../index1.php" class="nav-item nav-link">หน้าแรก</a>
+                        <a href="../summarize.php" class="nav-item nav-link">สรุปประวัติการจอง</a>
+                        <a href="../changeParkingSpot.php" class="nav-item nav-link active">แก้ไขจุดจอดรถ</a>
+                        <a href="../changeTime.php" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
+                        <a href="../changeDricycle.php" class="nav-item nav-link">แก้ไขรอบรถ</a>
+                        <a href="../datadrivers.php" class="nav-item nav-link">แก้ไขข้อมูลคนขับรถ</a>
                         <div class="nav-item dropdown">
                            
                             </div>
@@ -78,7 +78,7 @@
 
 
     <!-- Facilities Start -->
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5" align="center">
         <div class="container pb-3">
             <div class="row">
                 <?php
@@ -91,12 +91,13 @@
                 $query = mysqli_query($conn,$sql);
                 $result = mysqli_fetch_array($query, MYSQLI_ASSOC);   
             ?>
-            <form method="POST" action="editParkingSpot.php" name = "frmAdd">
-                รหัสจุดจอดรถ : <input type="hidden" name="carcode" value="<?php echo $result["car_reservation_code"];?>"><?php echo $result["car_reservation_code"];?><br>
-                ชื่อสถานที่จุดจอดรถ <input type="text" name="namelocation" size="20" value="<?php echo $result["Parking_place_name"];?>"><br>
-                สายรถ <input type="number" name="route" size="2" value="<?php echo $result["route_b_r"];?>"><br>
-            <input type="submit" value="Edit">
-            <input type="reset" value="Cancel">
+            <form method="POST" action="editParkingSpot.php" name = "frmAdd" style="text-align:center;width:100%;">
+                
+                รหัสจุดจอดรถ : <input type="hidden" class="form-select form-control" name="carcode" value="<?php echo $result["car_reservation_code"];?>"><?php echo $result["car_reservation_code"];?><br><br>
+                ชื่อสถานที่จุดจอดรถ <input type="text" class="form-select form-control" name="namelocation" size="20" value="<?php echo $result["Parking_place_name"];?>"><br>
+                สายรถ <input type="text" class="form-select form-control" name="route" size="2" value="<?php echo $result["route_b_r"];?>"><br>
+            <input type="submit" value="Edit" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
+            <input type="reset" value="Cancel" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
             </form>
             </div>
         </div>

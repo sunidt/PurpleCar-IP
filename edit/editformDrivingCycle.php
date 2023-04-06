@@ -43,12 +43,12 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav font-weight-bold mx-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">หน้าแรก</a>
-                        <a href="about.html" class="nav-item nav-link">สรุปประวัติการจอง</a>
-                        <a href="about.html" class="nav-item nav-link">แก้ไขจุดจอดรถ</a>
-                        <a href="about.html" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
-                        <a href="../changDricycle.php" class="nav-item nav-link active">แก้ไขรอบรถ</a>
-                        <a href="datadrivers.php" class="nav-item nav-link">แก้ไขข้อมูลคนขับรถ</a>
+                        <a href="../index1.php" class="nav-item nav-link">หน้าแรก</a>
+                        <a href="../summarize.php" class="nav-item nav-link">สรุปประวัติการจอง</a>
+                        <a href="../changeParkingSpot.php" class="nav-item nav-link">แก้ไขจุดจอดรถ</a>
+                        <a href="../changeTime.php" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
+                        <a href="../changeDricycle.php" class="nav-item nav-link active">แก้ไขรอบรถ</a>
+                        <a href="../datadrivers.php" class="nav-item nav-link">แก้ไขข้อมูลคนขับรถ</a>
                         <div class="nav-item dropdown">
                            
                             </div>
@@ -91,17 +91,17 @@
                 $query = mysqli_query($conn,$sql);
                 $result = mysqli_fetch_array($query, MYSQLI_ASSOC);   
             ?>
-            <form method="POST" action="editDrivingCycle.php" name = "frmAdd">
-                รหัสรอบรถ : <input type="hidden" name="drivid" value="<?php echo $result["driving_cycle_id"];?>"><?php echo $result["driving_cycle_id"];?><br>
-                รหัสสายรถ <input type="number" name="routeid" size="2" value="<?php echo $result["car_route_id"];?>"><br>
-                รหัสจุดขึ้นรถ <input type="number" name="start" size="3" value="<?php echo $result["stratid"];?>"><br>
-                รหัสคนขับ <input type="number" name="driver" size="3" value="<?php echo $result["Driver_ID"]?>"><br>
-                ทะเบียนรถ <input type="text" name="vehicle" size="7" value="<?php echo $result["vehicle_registration"]?>"><br>
-                วันที่วิ่งรถ <input type="date" name="date" value="<?php echo $result["date_of_driving_circle"]?>"><br>
-                รหัสเวลา <input type="text" name="time" size="4" value="<?php echo $result["time_id"]?>"><br>
-                จำนวนตั๋วที่เหลือ <input type="number" name="remainTickets" size="2" value="<?php echo $result["remaining_tickets"]?>"><br>
-            <input type="submit" value="Edit">
-            <input type="reset" value="Cancel">
+            <form method="POST" action="editDrivingCycle.php" name = "frmAdd" style="text-align:center;width:100%;">
+                รหัสรอบรถ : <input type="hidden" class="form-select form-control" name="drivid" value="<?php echo $result["driving_cycle_id"];?>"><?php echo $result["driving_cycle_id"];?><br><br>
+                รหัสสายรถ <input type="number" class="form-select form-control" name="routeid" size="2" value="<?php echo $result["car_route_id"];?>"><br>
+                รหัสจุดขึ้นรถ <input type="number" class="form-select form-control" name="start" size="3" value="<?php echo $result["stratid"];?>"><br>
+                รหัสคนขับ <input type="number" class="form-select form-control" name="driver" size="3" value="<?php echo $result["Driver_ID"]?>"><br>
+                ทะเบียนรถ <input type="text" class="form-select form-control" name="vehicle" size="7" value="<?php echo $result["vehicle_registration"]?>"><br>
+                วันที่วิ่งรถ <input type="date" class="form-select form-control" name="date" value="<?php echo $result["date_of_driving_circle"]?>"><br>
+                รหัสเวลา <input type="text" class="form-select form-control" name="time" size="4" value="<?php echo $result["time_id"]?>"><br>
+                จำนวนตั๋วที่เหลือ <input type="number" class="form-select form-control" name="remainTickets" size="2" value="<?php echo $result["remaining_tickets"]?>"><br>
+            <input type="submit" value="Edit" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
+            <input type="reset" value="Cancel" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
             </form>
             </div>
         </div>

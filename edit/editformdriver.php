@@ -43,12 +43,12 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav font-weight-bold mx-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">หน้าแรก</a>
-                        <a href="about.html" class="nav-item nav-link">สรุปประวัติการจอง</a>
-                        <a href="about.html" class="nav-item nav-link ">แก้ไขจุดจอดรถ</a>
-                        <a href="about.html" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
-                        <a href="../changDricycle.php" class="nav-item nav-link">แก้ไขรอบรถ</a>
-                        <a href="datadrivers.php" class="nav-item nav-link active">แก้ไขข้อมูลคนขับรถ</a>
+                        <a href="../index1.php" class="nav-item nav-link">หน้าแรก</a>
+                        <a href="../summarize.php" class="nav-item nav-link">สรุปประวัติการจอง</a>
+                        <a href="../changeParkingSpot.php" class="nav-item nav-link ">แก้ไขจุดจอดรถ</a>
+                        <a href="../changeTime.php" class="nav-item nav-link">แก้ไขเวลาวิ่งรถ</a>
+                        <a href="../changeDricycle.php" class="nav-item nav-link">แก้ไขรอบรถ</a>
+                        <a href="../datadrivers.php" class="nav-item nav-link active">แก้ไขข้อมูลคนขับรถ</a>
                         <div class="nav-item dropdown">
                            
                             </div>
@@ -93,28 +93,24 @@
             ?>
             
             <form method="POST" action="editdriver.php" name = "frmAdd" style="text-align:center;width:100%;">
-                <br><div class="form-select form-control">
-                รหัสคนขับ : <input  type="hidden" name="driverid" value="<?php echo $result["Driver_ID"];?>"><?php echo $result["Driver_ID"];?><br></div><br>
-                ชื่อ-นามสกุล : <input class="form-select form-control" type=" text" name="named" value="<?php echo $result["NameD"];?>"><br>
-                เพศ <fieldset>
-                        <select class="form-select form-control" name="sex"  size="" value="<?php echo $result["sex"];?><?php echo $result["sex"];?> " >
-                            <option value="Male" >Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                    </fieldset>
-                    <br>
-                วัน/เดือน/ปีเกิด <input class="form-select form-control" type="date" name="date" size="10" value="<?php echo $result["Date_of_Birth"];?>"><br>
-                ชื่อผู้ใช้ <input class="form-select form-control" type="text" name="username" size="15" value="<?php echo $result["Username"];?>"><br>
-                รหัสผ่าน <input class="form-select form-control" type="password" name="passwordd" size="15" value="<?php echo $result["PasswordD"];?>"><br>
-                เบอร์โทรศัพท์ <input class="form-select form-control" type="text" name="numphone" size="10" value="<?php echo $result["Number_Phone"];?>"><br>
-                เลขที่ใบขับขี่ <input class="form-select form-control" type="text" name="driverno" size="8" value="<?php echo $result["Driver_license_no"];?>"><br>
-                 
-                
-                    <input  type="submit" value="Edit" style="width:100px;height:40px">
-                    
-                    <input  type="reset" value="Cancel" style="width:100px;height:40px">
-                   
-            </form>
+                <br>
+                        รหัสคนขับ : <input  type="hidden" name="driverid" value="<?php echo $result["Driver_ID"];?>"><?php echo $result["Driver_ID"];?><br></div><br>
+                        ชื่อ-นามสกุล : <input class="form-select form-control" type=" text" name="named" value="<?php echo $result["NameD"];?>"><br>
+                        เพศ <fieldset>
+                                <select class="form-select form-control" name="sex"  size="" value="<?php echo $result["sex"];?><?php echo $result["sex"];?> " >
+                                    <option value="Male" >Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </fieldset>
+                        <br>
+                    วัน/เดือน/ปีเกิด <input class="form-select form-control" type="date" name="date" size="10" value="<?php echo $result["Date_of_Birth"];?>"><br>
+                    ชื่อผู้ใช้ <input class="form-select form-control" type="text" name="username" size="15" value="<?php echo $result["Username"];?>"><br>
+                    รหัสผ่าน <input class="form-select form-control" type="password" name="passwordd" size="15" value="<?php echo $result["PasswordD"];?>"><br>
+                    เบอร์โทรศัพท์ <input class="form-select form-control" type="text" name="numphone"  size="10" value="<?php echo $result["Number_Phone"];?>"><br>
+                    เลขที่ใบขับขี่ <input class="form-select form-control" type="text" name="driverno" size="8" value="<?php echo $result["Driver_license_no"];?>"><br>
+                    <input  type="submit"  value="Edit" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
+                    <input  type="reset"  value="Cancel" style="width:100px;height:40px;border-radius: 15px ;background-color: white;color: black ">
+                </form>
             </div>
         </div>
     </div>
