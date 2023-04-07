@@ -18,7 +18,8 @@ include('../connectdatabase.php');
 date_default_timezone_set('Asia/Bangkok');
 $today = date("Y-m-d");
 // echo $today;
-$startdate = '2022-01-03';
+// $startdate = '2022-01-01';
+$startdate = date("Y-m");
 $endate = $today;
 $labels = array();
 $resultdata = array();
@@ -41,7 +42,7 @@ while($currentdate <= $endate){
 $response = [
     'status' => true,
     'response' => [
-        'label' => 'ยอดขายรายวัน',
+        'label' => 'ยอดขายรายวันของเดือนนี้',
         'labels' => $labels, 
         'results' => $resultdata
     ],

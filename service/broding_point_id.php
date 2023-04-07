@@ -29,7 +29,8 @@ $data = array();
 
 // สร้าง SQL query และวนลูปเพื่อดึงข้อมูลจากฐานข้อมูล
 for ($p = 1; $p <= 15; $p++) {
-    $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = $p";
+    if($p==1 or $p==9){
+        $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = $p";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0){
         while($row = mysqli_fetch_assoc($result)){
@@ -43,6 +44,7 @@ for ($p = 1; $p <= 15; $p++) {
         while($row = mysqli_fetch_assoc($result)){
             array_push($resultdata,$row['COUNT(broding_point_id)']); // เปลี่ยนเงื่อนไขเป็น COUNT(pick_up_id)
         }
+    }
     }
 }
 

@@ -99,12 +99,13 @@
 	<div class="container-fluid">
 		<h1 class="text-center my-4">สรุปประวัติการจอง</h1>
 		<div id="salesbtn" class="d-flex justify-content-center">
-			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('day.php', this, 'line')">วัน</button>
+			<button class="btn btn-secondary mx-2" onclick="selectReport('day.php', this, 'line')">วัน</button>
 			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('month.php', this, 'line')">เดือน</button>
             <button class="btn btn-outline-secondary mx-2" onclick="selectReport('year.php', this, 'line')">ปี</button><!-- ดึงข้อมูลจากโฟร์เดอร์ Service -->
             <button class="btn btn-outline-secondary mx-2" onclick="selectReport('broding_point_id.php', this, 'pie')">จุดขึ้นรถ</button>
 			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('dropoff.php', this, 'pie')">จุดลงรถ</button>
             <button class="btn btn-outline-secondary mx-2" onclick="selectReport('gender.php', this, 'pie')">เพศ</button>
+            <button class="btn btn-outline-secondary mx-2" onclick="selectReport('time.php', this, 'bar')">เวลา</button>
 		</div>
 		<div class="">
 			<canvas id="myChart" height="400px"></canvas>

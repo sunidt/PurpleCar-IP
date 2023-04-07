@@ -60,7 +60,7 @@ for ($m = 1; $m <= 12; $m++){
 $response = [
     'status' => true,
     'response' => [
-        'label' => 'ยอดขายรายเดือน',
+        'label' => 'ยอดขายรายเดือนของปีนี้',
         'labels' => $labels, 
         'results' => $resultdata
     ],
