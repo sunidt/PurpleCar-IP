@@ -80,24 +80,17 @@
         </div>
     </div> -->
     <!-- หัวเรื่อง  End -->
-
-
-  
     <div class="container-fluid pt-5 pb-3">
         <div class="container">
             <div class="text-center pb-2">
-                
                 
             </div>
             <div class="row">
                 <div class="col-12 text-center mb-2">
                     <ul class="list-inline mb-4" id="portfolio-flters">
-              
-             <!-- ***** กราฟ***** -->
 
-         
-             <fieldset>
-             <head>
+<!-- ส่วนของกราฟ bar -->
+    <head>
 	<title>สรุปประวัติการจอง</title>
 	<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -106,13 +99,15 @@
 	<div class="container-fluid">
 		<h1 class="text-center my-4">สรุปประวัติการจอง</h1>
 		<div id="salesbtn" class="d-flex justify-content-center">
-			<button class="btn btn-secondary mx-2" onclick="selectReport('day.php', this, 'line')">วัน</button>
+			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('day.php', this, 'line')">วัน</button>
 			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('month.php', this, 'line')">เดือน</button>
-            <button class="btn btn-secondary mx-2" onclick="selectReport('year.php', this, 'bar')">ปี</button><!-- ดึงข้อมูลจากโฟร์เดอร์ Service -->
-                                                                                   
+            <button class="btn btn-outline-secondary mx-2" onclick="selectReport('year.php', this, 'line')">ปี</button><!-- ดึงข้อมูลจากโฟร์เดอร์ Service -->
+            <button class="btn btn-outline-secondary mx-2" onclick="selectReport('broding_point_id.php', this, 'pie')">จุดขึ้นรถ</button>
+			<button class="btn btn-outline-secondary mx-2" onclick="selectReport('dropoff.php', this, 'pie')">จุดลงรถ</button>
+            <button class="btn btn-outline-secondary mx-2" onclick="selectReport('gender.php', this, 'pie')">เพศ</button>
 		</div>
 		<div class="">
-			<canvas id="myChart" height="500px"></canvas>
+			<canvas id="myChart" height="400px"></canvas>
 		</div>
 	</div>
 
@@ -172,97 +167,17 @@
 			})
 		};
 
-		/** กำหนดให้ กราฟรายวันขึ้นก่อนเมื่อเปิดนะจ่ะ */
+		/** กำหนดให้ กราฟรายวันขึ้นก่อนเมื่อเปิด */
 		renderChart('day.php', 'line') 
     
 	</script>
-
-       <!-- ยังรวมหน้าไม่ได้ ทำได้ทำต่อด้วยกูก็ทำอยู่ -->
-<form>
-<div id="piechart"></div>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<?php
-    $dropoff = array();
-    $resultdata = array();
-    $data = array();
-    include 'connectdatabase.php';
-    for ($p = 1; $p <= 15; $p++) {
-        $sql = "SELECT * FROM `parking_spot` WHERE `car_reservation_code` = $p";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0){
-            while($row = mysqli_fetch_assoc($result)){
-                array_push($dropoff,$row['Parking_place_name']);
-                // echo $row['Parking_place_name'].":";
-            }
-        }
-        // array_push($dropoff,$p);
-        $sql = "SELECT COUNT(drop_off_id) FROM `ticket` RIGHT JOIN `reserve` ON `ticket`.`Ticket_ID` = `reserve`.`Ticket_ID` WHERE `drop_off_id` = $p";
-        $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) > 0){
-            while($row = mysqli_fetch_assoc($result)){
-                array_push($resultdata,$row['COUNT(drop_off_id)']);
-                // echo " ".$row['COUNT(drop_off_id)']."  ";
-            }
-        }
-        // array_push($data,"['".$dropoff[$p-1]."'".", ".$resultdata[$p-1]."]");
-    }
-    $cparking = count($dropoff);
-    // echo $dropoff;
-    // echo $resultdata;
-    // echo $data;
-    // echo $cparking;
-    // $i = 0;
-    //     while($i<$cparking){
-    //         echo $dropoff[$i];
-    //         $i = $i+1;
-    //     }
-?>
-<div style="width: 300px; height: 300px;">
-    <canvas id="myChart" ></canvas>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    var ctx = document.getElementById('piechart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: <?php echo json_encode($dropoff); ?>,
-            datasets: [{
-                label: 'Total Users',
-                data: <?php echo json_encode($resultdata); ?>,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-    
-</script> 
-
-</body>
-</form>
-</fieldset>
-
-  
+<!-- จบส่วนของกราฟ bar -->
+             
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 
 
+
+<body>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
@@ -280,6 +195,7 @@
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
+</body>
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
