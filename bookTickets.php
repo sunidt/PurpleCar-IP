@@ -96,6 +96,7 @@
                                     date_default_timezone_set('Asia/Bangkok');
                                     $today = date("Y-m-d");
                                     // echo $today;
+                                    $maxDate = date("Y-m-d", strtotime("+3 day", strtotime($today)));
                                 }
                             }
                         }
@@ -109,6 +110,8 @@
         
 
     <!-- Team Start -->
+    <!-- <?php echo $today ?>
+    <?php echo $maxDate ?> -->
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
@@ -158,7 +161,7 @@
                 </fieldset>
                 <br>
                 <h6 style="font-size: 40px;">วันที่เดินทาง</h6>
-                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today ?> onchange="this.form.click()">
+                <input type="date" name="goDate" class="form-select form-control" aria-label="Default select example" id="goDate" min=<?php echo $today; ?> max=<?php echo $maxDate; ?> onchange="this.form.click()">
                 <br>
                 <fieldset>
                     <div>
