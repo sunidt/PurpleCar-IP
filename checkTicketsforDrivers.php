@@ -82,24 +82,6 @@
     </div>
     <!-- Navbar End -->
 
-
-    <!-- About Start -->
-    <div class="container-fluid  pt-5 ">
-        <div class="container"style="min-height:200px">
-            <div class="row align-items-center d-flex flex-column align-items-center justify-content-center">
-                <div class="col-lg-5">
-                    <img class="img-fluid rounded mb-5 mb-lg-0" src="" alt="">
-                </div>
-                <div class="">
-                    <br>
-              <table width='100%'>
-                
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About End -->
-    <br>
      <!-- Header Start -->
      <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px">
@@ -109,6 +91,7 @@
     <!-- Header End -->
 
     <!-- Facilities Start --> 
+    <div class="container">
         <fieldset>
              <?php
                 include('connectdatabase.php');
@@ -129,7 +112,7 @@
                 ?> 
         </fieldset>
         <br><br>
-        <div class="container">
+        
         <table class = "table table-striped mt-4 text-#000000 ">
         <tr class="bg-primary  font-weight-bold mx-auto " > 
         <form name="frmSearch" method="get" action="<?=$_SERVER['SCRIPT_NAME'];?>">
